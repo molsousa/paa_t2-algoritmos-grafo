@@ -1,3 +1,4 @@
+#include "include/fila.hpp"
 #include "include/grafo.hpp"
 
 int criar_grafo()
@@ -23,7 +24,45 @@ int criar_grafo()
     return 0;
 }
 
+int teste_fila()
+{
+    fila* f = new fila();
+    tipoItem item;
+
+    item.v = 5;
+    f->enqueue(item);
+    item.v = 7;
+    f->enqueue(item);
+    item.v = 9;
+    f->enqueue(item);
+    item.v = 11;
+    f->enqueue(item);
+    item.v = 3;
+    f->enqueue(item);
+    item.v = 2;
+    f->enqueue(item);
+
+    f->imprimir();
+
+    f->dequeue();
+    f->dequeue();
+    f->dequeue();
+    f->dequeue();
+    f->dequeue();
+    f->dequeue();
+
+    f->imprimir();
+
+    f->dequeue();
+
+    f->enqueue(item);
+
+    f->imprimir();
+
+    return 0;
+}
+
 int main(int argc, char** argv)
 {
-    return criar_grafo();
+    return teste_fila();
 }

@@ -4,14 +4,22 @@
 #include <vector>
 #include <limits>
 
+/// Definição de tipo para vértice.
 typedef int tipoVertice;
+/// Definição de tipo para tempo de acesso a vértice.
 typedef int tipoTempo;
+/// Definição de tipo para peso de aresta.
 typedef double tipoPeso;
 
+/// @enum cor Enumeração para cores de cada vértice.
 typedef enum {preto, branco, cinza} cor;
+
+/// @enum tipoGrafo Enumeração para tipos de grafo <orientado> e <nao_orientado>
 typedef enum {orientado, nao_orientado} tipoGrafo;
 
+/// Definição de constante <INFINITO> para valor máximo de peso.
 const double INFINITO {std::numeric_limits<double>::max()};
+/// Definição de constante <MAX_NUM_VERTICES> para máximo de vértices criados.
 const int MAX_NUM_VERTICES {4500};
 
 /**
@@ -30,7 +38,7 @@ protected:
 
     /**
      * @brief Função membro para definir o número de vértices.
-     * @details Define o valor do atributo <num_vertices>
+     * @details Define o valor do atributo <num_vertices>.
      * @param num_vertices Número máximo de vértices.
      */
     void set_num_vertices(const int);
@@ -42,6 +50,11 @@ protected:
      */
     int get_num_vertices() const;
 
+    /**
+     * @brief Função membro para definir o número de arestas.
+     * @details Define o valor do atributo <num_arestas>.
+     * @param num_arestas Número de arestas do grafo.
+     */
     void set_num_arestas(const int);
 
     /**
@@ -51,6 +64,11 @@ protected:
      */
     int get_num_arestas() const;
 
+    /**
+     * @brief Função membro para definir o tipo do grafo.
+     * @details Define o valor do atributo <tipo> para <orientado> ou <nao_orientado>.
+     * @param tipo Valor de tipo enumerado para <orientado> ou <nao_orientado>
+     */
     void set_tipo_grafo(const tipoGrafo);
 
     /**
@@ -60,6 +78,13 @@ protected:
      */
     tipoGrafo get_tipo_grafo() const;
 
+    /**
+     * @brief Função membro para definir um valor de peso em uma aresta.
+     * @details Define o valor de peso em uma aresta específica do grafo <mat[v1][v2]>.
+     * @param v1 Vértice origem.
+     * @param v2 Vértice destino.
+     * @param peso Peso a ser atribuído a uma aresta.
+     */
     void set_valor_grafo(const tipoVertice, const tipoVertice, const tipoPeso);
 
     /**
