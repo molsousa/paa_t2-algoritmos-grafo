@@ -1,13 +1,7 @@
 #ifndef FILA_H_INCLUDED
 #define FILA_H_INCLUDED
 
-#include "grafo.hpp"
-
-/// Definição de estrutura para tipo de item.
-typedef struct{
-    tipoVertice v;
-    tipoPeso peso;
-}tipoItem;
+#include "item.hpp"
 
 /**
  * @class fila Definição de classe para fila.

@@ -4,6 +4,8 @@
 #include <vector>
 #include <limits>
 
+#include "item.hpp"
+
 /// Definição de tipo para vértice.
 typedef int tipoVertice;
 /// Definição de tipo para tempo de acesso a vértice.
@@ -34,7 +36,9 @@ private:
     int num_arestas;
     tipoGrafo tipo;
 
-protected:
+    void copiar_grafo(tipoPeso[MAX_NUM_VERTICES][MAX_NUM_VERTICES],
+                      tipoPeso[MAX_NUM_VERTICES][MAX_NUM_VERTICES]);
+public:
 
     /**
      * @brief Função membro para definir o número de vértices.
@@ -105,8 +109,6 @@ protected:
      */
     bool existe_aresta(const tipoVertice, const tipoVertice) const;
 
-public:
-
     /**
      * @brief Construtor.
      * @details Constrói o grafo com número máximo de vértices.
@@ -143,6 +145,8 @@ public:
      * @details Imprime grafo no console do terminal.
      */
     void imprimir_grafo();
+
+    tipoItem* get_prox_adjacencia(tipoVertice&, tipoVertice&);
 };
 
 #endif

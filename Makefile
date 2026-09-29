@@ -4,7 +4,7 @@ DEBUG=-g
 OPT=-O0
 CXXFLAGS=$(DEBUG) $(OPT) $(WARN) -pipe
 LD=g++
-OBJS= main.o algoritmos_grafo.o grafo.o fila.o
+OBJS= main.o algoritmos_grafo.o grafo.o fila.o pilha.o teste.o
 
 all: $(OBJS)
 	$(LD) -o $(TARGET) $(OBJS) $(LDFLAGS)
@@ -16,8 +16,14 @@ main.o: main.cpp
 algoritmos_grafo.o: src/algoritmos_grafo.cpp
 	$(CXX) -c $(CXXFLAGS) src/algoritmos_grafo.cpp -o algoritmos_grafo.o
 
-grafo.o: src/grafo.cpp
-	$(CXX) -c $(CXXFLAGS) src/grafo.cpp -o grafo.o
+grafo.o: src/estrutura_dados/grafo.cpp
+	$(CXX) -c $(CXXFLAGS) src/estrutura_dados/grafo.cpp -o grafo.o
 
-fila.o: src/fila.cpp
-	$(CXX) -c $(CXXFLAGS) src/fila.cpp -o fila.o
+fila.o: src/estrutura_dados/fila.cpp
+	$(CXX) -c $(CXXFLAGS) src/estrutura_dados/fila.cpp -o fila.o
+
+pilha.o: src/estrutura_dados/pilha.cpp
+	$(CXX) -c $(CXXFLAGS) src/estrutura_dados/pilha.cpp -o pilha.o
+
+teste.o: teste.cpp
+	$(CXX) -c $(CXXFLAGS) teste.cpp -o teste.o

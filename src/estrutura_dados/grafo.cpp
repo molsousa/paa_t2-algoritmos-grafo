@@ -1,6 +1,6 @@
 #include <iostream>
 #include <format>
-#include "../include/grafo.hpp"
+#include "../../include/grafo.hpp"
 
 grafo::grafo(const tipoGrafo tipo)
 {
@@ -99,6 +99,13 @@ void grafo::inserir_aresta(const tipoVertice v1,
     }
 
     set_valor_grafo(v1, v2, peso);
+}
+
+tipoItem* grafo::get_prox_adjacencia(tipoVertice& v1, tipoVertice& v2)
+{
+    tipoItem* item {nullptr};
+
+    return item;
 }
 
 void grafo::imprimir_grafo()
