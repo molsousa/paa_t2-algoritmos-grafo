@@ -1,28 +1,7 @@
 #ifndef GRAFO_H_INCLUDED
 #define GRAFO_H_INCLUDED
 
-#include <vector>
-#include <limits>
-
-#include "item.hpp"
-
-/// Definição de tipo para vértice.
-typedef int tipoVertice;
-/// Definição de tipo para tempo de acesso a vértice.
-typedef int tipoTempo;
-/// Definição de tipo para peso de aresta.
-typedef double tipoPeso;
-
-/// @enum cor Enumeração para cores de cada vértice.
-typedef enum {preto, branco, cinza} cor;
-
-/// @enum tipoGrafo Enumeração para tipos de grafo <orientado> e <nao_orientado>
-typedef enum {orientado, nao_orientado} tipoGrafo;
-
-/// Definição de constante <INFINITO> para valor máximo de peso.
-const double INFINITO {std::numeric_limits<double>::max()};
-/// Definição de constante <MAX_NUM_VERTICES> para máximo de vértices criados.
-const int MAX_NUM_VERTICES {4500};
+#include "utils.hpp"
 
 /**
  * @class grafo Classe para grafo orientado ou não orentado de peso com ponto flutuante.
@@ -36,9 +15,29 @@ private:
     int num_arestas;
     tipoGrafo tipo;
 
-    void copiar_grafo(tipoPeso[MAX_NUM_VERTICES][MAX_NUM_VERTICES],
-                      tipoPeso[MAX_NUM_VERTICES][MAX_NUM_VERTICES]);
 public:
+
+    /**
+     * @brief Construtor.
+     * @details Constrói o grafo com número máximo de vértices.
+     * @param tipo Tipo de grafo (se orientado ou não orientado).
+     */
+    grafo(const tipoGrafo);
+
+    /**
+     * @brief Construtor.
+     * @details Constrói o grafo com número de vértices pré-definido.
+     * @param num_max Número máximo de vértices.
+     * @param tipo Tipo de grafo (se orientado ou não orientado).
+     * @overload
+     */
+    grafo(const tipoVertice, const tipoGrafo);
+
+    /**
+     * @brief Destrutor.
+     * @details Destrutor para a classe grafo, imprime no console um texto de sucesso.
+     */
+    virtual ~grafo();
 
     /**
      * @brief Função membro para definir o número de vértices.
@@ -110,28 +109,6 @@ public:
     bool existe_aresta(const tipoVertice, const tipoVertice) const;
 
     /**
-     * @brief Construtor.
-     * @details Constrói o grafo com número máximo de vértices.
-     * @param tipo Tipo de grafo (se orientado ou não orientado).
-     */
-    grafo(const tipoGrafo);
-
-    /**
-     * @brief Construtor.
-     * @details Constrói o grafo com número de vértices pré-definido.
-     * @param num_max Número máximo de vértices.
-     * @param tipo Tipo de grafo (se orientado ou não orientado).
-     * @overload
-     */
-    grafo(const tipoVertice, const tipoGrafo);
-
-    /**
-     * @brief Destrutor.
-     * @details Destrutor para a classe grafo, imprime no console um texto de sucesso.
-     */
-    virtual ~grafo();
-
-    /**
      * @brief Função membro para inserir uma aresta no grafo.
      * @param v1 Vértice origem.
      * @param v2 Vértice destino
@@ -146,7 +123,23 @@ public:
      */
     void imprimir_grafo();
 
-    tipoItem* get_prox_adjacencia(tipoVertice&, tipoVertice&);
+    /**
+     * @brief
+     * @details
+     * @param v
+     */
+    tipoVertice get_primeiro_adjacencia(tipoVertice&);
+
+    /**
+     * @brief
+     * @details
+     * @param
+     */
+    bool lista_adjacencia_vazia(tipoVertice);
+
+    tipoVertice prox_adjacencia(tipoVertice, tipoPeso&, int&, bool&) const;
+
+    grafo* grafo_transposto();
 };
 
 #endif

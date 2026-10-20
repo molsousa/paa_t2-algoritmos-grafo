@@ -1,7 +1,7 @@
 #ifndef FILA_H_INCLUDED
 #define FILA_H_INCLUDED
 
-#include "item.hpp"
+#include "utils.hpp"
 
 /**
  * @class fila Definição de classe para fila.
@@ -16,7 +16,7 @@ private:
     class lista
     {
     public:
-        tipoItem item;
+        tipoVertice item;
         lista* prox;
 
         /**
@@ -24,7 +24,7 @@ private:
          * @details Construtor para criar um nó de lista com campo <prox> igual a nullptr.
          * @param item Item a ser adicionado no nó da lista.
          */
-        lista(const tipoItem);
+        lista(const tipoVertice);
     };
 
     lista* inicio;
@@ -50,14 +50,14 @@ public:
      * @details Enfileira item com valores de <tipoVertice> e/ou <tipoPeso>.
      * @param item Variável do tipo <tipoItem>
      */
-    void enqueue(const tipoItem);
+    void enqueue(const tipoVertice);
 
     /**
      * @brief Função membro para desenfileirar um item.
      * @details Desenfileira um item e retorna o valor do item desenfileirado.
      * @returns Item desenfileirado em tipo ponteiro.
      */
-    tipoItem* dequeue();
+    tipoVertice dequeue();
 
     /**
      * @brief Função membro para imprimir fila [DEBUG].

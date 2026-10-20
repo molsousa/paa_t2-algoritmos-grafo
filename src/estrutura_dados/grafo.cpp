@@ -101,11 +101,60 @@ void grafo::inserir_aresta(const tipoVertice v1,
     set_valor_grafo(v1, v2, peso);
 }
 
-tipoItem* grafo::get_prox_adjacencia(tipoVertice& v1, tipoVertice& v2)
+tipoVertice grafo::get_primeiro_adjacencia(tipoVertice& v)
 {
-    tipoItem* item {nullptr};
+    tipoVertice res {0};
+    bool vazia {true};
+    tipoVertice aux {0};
 
-    return item;
+    while(aux < num_vertices && vazia){
+        if(mat[v][aux] > 0.0){
+            vazia = false;
+            res = aux;
+        }
+        else{
+            ++aux;
+        }
+    }
+
+    return res;
+}
+
+bool grafo::lista_adjacencia_vazia(tipoVertice v)
+{
+    tipoVertice aux{0};
+    bool vazia{true};
+
+    while(aux < num_vertices && vazia){
+        if(mat[v][aux] > 0.0){
+            vazia = false;
+        }
+        else{
+            ++aux;
+        }
+    }
+
+    return vazia;
+}
+
+tipoVertice grafo::prox_adjacencia(tipoVertice v,
+                                   tipoPeso& peso,
+                                   int& prox,
+                                   bool& fim_lista) const
+{
+    tipoVertice adj {prox};
+    peso = mat[v][prox];
+    ++prox;
+
+    while(prox < num_vertices && mat[v][prox] == 0.0){
+        ++prox;
+    }
+
+    if(prox == num_vertices){
+        fim_lista = true;
+    }
+
+    return adj;
 }
 
 void grafo::imprimir_grafo()
@@ -127,4 +176,32 @@ void grafo::imprimir_grafo()
 
         std::cout << "\n";
     }
+
+    std::cout << "\n";
+}
+
+grafo* grafo::grafo_transposto()
+{
+    grafo* o;
+    tipoVertice v, u;
+    tipoPeso peso;
+    tipoVertice aux;
+    int NUM_VERTICES = get_num_vertices();
+    bool fim_lista;
+
+    o = new grafo(NUM_VERTICES, get_tipo_grafo());
+    o->set_num_arestas(get_num_arestas());
+
+    for(v = 0; v < num_vertices; ++v){
+        if(!lista_adjacencia_vazia(v)){
+            aux = get_primeiro_adjacencia(v);
+            fim_lista = false;
+
+            while(!fim_lista){
+                u = prox_adjacencia(v, peso, aux, fim_lista);
+                o->inserir_aresta(u, v, peso);
+            }
+        }
+    }
+    return o;
 }

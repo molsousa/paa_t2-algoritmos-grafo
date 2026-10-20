@@ -1,7 +1,7 @@
 #include <iostream>
 #include "../../include/pilha.hpp"
 
-pilha::lista::lista(const tipoItem item, lista* prox)
+pilha::lista::lista(const tipoVertice item, lista* prox)
 {
     this->item = item;
     this->prox = prox;
@@ -12,12 +12,32 @@ pilha::pilha()
     this->topo = nullptr;
 }
 
+pilha::~pilha()
+{
+    lista* aux {topo};
+
+    while(aux != nullptr){
+        lista* temp {aux};
+        aux = temp->prox;
+        delete temp;
+    }
+}
+
 bool pilha::vazia() const
 {
     return (this->topo == nullptr);
 }
 
-void pilha::push(const tipoItem item)
+tipoVertice pilha::visulizar_topo() const
+{
+    if(!vazia()){
+        return topo->item;
+    }
+
+    return -1;
+}
+
+void pilha::push(const tipoVertice item)
 {
     lista* novo = new lista(item, topo);
 
@@ -29,15 +49,17 @@ void pilha::imprimir()
     lista* aux {topo};
 
     while(aux != nullptr){
-        std::cout << aux->item.v << "\n";
+        std::cout << "|" << aux->item << "|->";
 
         aux = aux->prox;
     }
+
+    std::cout << "NULL\n\n";
 }
 
-tipoItem pilha::pop()
+tipoVertice pilha::pop()
 {
-    tipoItem item {topo->item};
+    tipoVertice item {topo->item};
 
     lista* aux = topo;
     topo = aux->prox;

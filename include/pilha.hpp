@@ -1,7 +1,7 @@
 #ifndef PILHA_H_INCLUDED
 #define PILHA_H_INCLUDED
 
-#include "item.hpp"
+#include "utils.hpp"
 
 class pilha
 {
@@ -9,10 +9,10 @@ private:
     class lista
     {
     public:
-        tipoItem item;
+        tipoVertice item;
         lista* prox;
 
-        lista(const tipoItem, lista*);
+        lista(const tipoVertice, lista*);
     };
 
     lista* topo;
@@ -20,11 +20,15 @@ private:
 public:
     pilha();
 
+    ~pilha();
+
     bool vazia() const;
 
-    void push(const tipoItem);
+    tipoVertice visulizar_topo() const;
 
-    tipoItem pop();
+    void push(const tipoVertice);
+
+    tipoVertice pop();
 
     void imprimir();
 };
