@@ -156,6 +156,73 @@ void algoritmos::ordenacao_topologica(grafo& g)
     delete vertices_ordenados;
 }
 
+void algoritmos::componentes_fortemente_conexas(grafo& g)
+{
+    const int NUM_VERTICES = g.get_num_vertices();
+
+    cor cores[MAX_NUM_VERTICES];
+    tipoVertice u;
+    pilha* vertices_ordenados = new pilha();
+
+    for(u = 0; u < NUM_VERTICES; ++u){
+        cores[u] = branco;
+    }
+
+    for(u = 0; u < NUM_VERTICES; ++u){
+        if(cores[u] == branco){
+            dfs(g, u, cores, vertices_ordenados);
+        }
+    }
+
+    grafo* gT = g.grafo_transposto();
+
+    for(u = 0; u < NUM_VERTICES; ++u){
+        cores[u] = branco;
+    }
+
+    int componente = 0;
+    while(!vertices_ordenados->vazia()){
+        tipoVertice v = vertices_ordenados->pop();
+
+        if(cores[v] == branco){
+            ++componente;
+            std::cout << std::format("CFC {:2d}: ", componente);
+            dfs_componente(*gT, v, cores);
+            std::cout << "\n";
+        }
+    }
+
+    std::cout << std::format("\nTotal de CFC: {}\n\n", componente);
+
+    delete gT;
+    delete vertices_ordenados;
+}
+
+void algoritmos::dfs_componente(grafo& g, tipoVertice u, cor* cores)
+{
+    tipoVertice v;
+    bool fim_lista;
+    tipoPeso peso;
+    tipoVertice aux;
+
+    cores[u] = cinza;
+    std::cout << std::format("{:3d}", u);
+
+    if(!g.lista_adjacencia_vazia(u)){
+        aux = g.get_primeiro_adjacencia(u);
+        fim_lista = false;
+
+        while(!fim_lista){
+            v = g.prox_adjacencia(u, peso, aux, fim_lista);
+            if(cores[v] == branco){
+                dfs_componente(g, v, cores);
+            }
+        }
+    }
+
+    cores[u] = preto;
+}
+
 void algoritmos::dfs(grafo& g,
                      tipoVertice u,
                      cor* cores,
@@ -250,6 +317,7 @@ void algoritmos::djikstra(grafo& g, tipoVertice origem)
             std::cout << std::format("   {:2d}: {:6.2f} (pai {:2d})\n", u, dist[u], pai[u]);
         }
     }
+    std::cout << "\n";
 }
 
 

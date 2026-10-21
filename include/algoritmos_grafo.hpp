@@ -42,6 +42,8 @@ private:
      */
     void bfs(grafo&, tipoVertice, tipoTempo*, cor*, pilha*);
 
+    void dfs_componente(grafo&, tipoVertice, cor*);
+
 public:
 
     /**

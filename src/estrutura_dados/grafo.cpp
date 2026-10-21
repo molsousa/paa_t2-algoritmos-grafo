@@ -83,7 +83,7 @@ bool grafo::existe_aresta(tipoVertice v1, tipoVertice v2) const
         return false;
     }
 
-    return (this->mat[v1][v2] > 0.0);
+    return (this->mat[v1][v2] != 0.0);
 }
 
 void grafo::inserir_aresta(const tipoVertice v1,
@@ -126,7 +126,7 @@ bool grafo::lista_adjacencia_vazia(tipoVertice v)
     bool vazia{true};
 
     while(aux < num_vertices && vazia){
-        if(mat[v][aux] > 0.0){
+        if(mat[v][aux] != 0.0){
             vazia = false;
         }
         else{

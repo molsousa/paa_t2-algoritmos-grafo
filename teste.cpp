@@ -9,20 +9,17 @@
 
 int criar_grafo()
 {
-    grafo* g = new grafo(8, orientado);
+    grafo* g = new grafo(5, orientado);
     grafo* gT;
     algoritmos algol;
 
-    g->inserir_aresta(0, 1, 1);
-    g->inserir_aresta(0, 2, 11);
-    g->inserir_aresta(0, 3, 1);
-    g->inserir_aresta(1, 7, 3);
-    g->inserir_aresta(2, 4, 3);
-    g->inserir_aresta(3, 6, 4);
-    g->inserir_aresta(4, 5, 5);
-    g->inserir_aresta(5, 7, 1);
-    g->inserir_aresta(6, 5, 2);
-    g->inserir_aresta(6, 4, 3);
+    g->inserir_aresta(0, 1, 11);
+    g->inserir_aresta(0, 2, -4);
+    g->inserir_aresta(1, 3, -5);
+    g->inserir_aresta(3, 0, 2);
+    g->inserir_aresta(3, 2, 8);
+    g->inserir_aresta(2, 4, 7);
+    g->inserir_aresta(4, 2, 19);
 
     g->imprimir_grafo();
     std::cout << "\n";
@@ -41,6 +38,8 @@ int criar_grafo()
     gT->imprimir_grafo();
 
     algol.djikstra(*g, 0);
+
+    algol.componentes_fortemente_conexas(*g);
 
     delete gT;
     delete g;
