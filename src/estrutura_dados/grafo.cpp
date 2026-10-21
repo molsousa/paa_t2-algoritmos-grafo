@@ -12,7 +12,7 @@ grafo::grafo(const tipoGrafo tipo)
 
     this->set_num_vertices(MAX_NUM_VERTICES);
     this->set_num_arestas(0);
-    this->tipo = tipo;
+    this->set_tipo_grafo(tipo);
 }
 
 grafo::grafo(const tipoVertice num_max, const tipoGrafo tipo)
@@ -25,7 +25,7 @@ grafo::grafo(const tipoVertice num_max, const tipoGrafo tipo)
 
     this->set_num_vertices(num_max);
     this->set_num_arestas(0);
-    this->tipo = tipo;
+    this->set_tipo_grafo(tipo);
 }
 
 grafo::~grafo()
@@ -186,13 +186,13 @@ grafo* grafo::grafo_transposto()
     tipoVertice v, u;
     tipoPeso peso;
     tipoVertice aux;
-    int NUM_VERTICES = get_num_vertices();
+    const int NUM_VERTICES = get_num_vertices();
     bool fim_lista;
 
     o = new grafo(NUM_VERTICES, get_tipo_grafo());
     o->set_num_arestas(get_num_arestas());
 
-    for(v = 0; v < num_vertices; ++v){
+    for(v = 0; v < NUM_VERTICES; ++v){
         if(!lista_adjacencia_vazia(v)){
             aux = get_primeiro_adjacencia(v);
             fim_lista = false;

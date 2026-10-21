@@ -10,40 +10,40 @@
 int criar_grafo()
 {
     grafo* g = new grafo(8, orientado);
-    grafo* o;
+    grafo* gT;
     algoritmos algol;
 
-    if(g == nullptr){
-        return 1;
-    }
-
     g->inserir_aresta(0, 1, 1);
-    g->inserir_aresta(0, 2, 1);
+    g->inserir_aresta(0, 2, 11);
     g->inserir_aresta(0, 3, 1);
-    g->inserir_aresta(1, 7, 1);
-    g->inserir_aresta(2, 4, 1);
-    g->inserir_aresta(3, 6, 1);
-    g->inserir_aresta(4, 5, 1);
+    g->inserir_aresta(1, 7, 3);
+    g->inserir_aresta(2, 4, 3);
+    g->inserir_aresta(3, 6, 4);
+    g->inserir_aresta(4, 5, 5);
     g->inserir_aresta(5, 7, 1);
+    g->inserir_aresta(6, 5, 2);
+    g->inserir_aresta(6, 4, 3);
 
     g->imprimir_grafo();
     std::cout << "\n";
 
-    algol.busca_profundidade(g);
+    algol.busca_profundidade(*g);
     std::cout << "\n";
 
-    algol.busca_largura(g);
+    algol.busca_largura(*g);
     std::cout << "\n";
 
-    algol.ordenacao_topologica(g);
+    algol.ordenacao_topologica(*g);
 
-    o = g->grafo_transposto();
+    gT = g->grafo_transposto();
 
     g->imprimir_grafo();
-    o->imprimir_grafo();
+    gT->imprimir_grafo();
 
+    algol.djikstra(*g, 0);
+
+    delete gT;
     delete g;
-    delete o;
 
     return 0;
 }
@@ -65,6 +65,8 @@ int teste_fila()
     f->enqueue(12);
 
     f->imprimir();
+
+    delete f;
 
     return 0;
 }
@@ -89,6 +91,5 @@ int teste_pilha()
 
     return 0;
 }
-
 
 

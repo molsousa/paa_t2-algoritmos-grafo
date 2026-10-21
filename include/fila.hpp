@@ -38,6 +38,8 @@ public:
      */
     fila();
 
+    ~fila();
+
     /**
      * @brief Função membro para verificar se uma fila é vazia.
      * @details Verifica se a fila está vazia com valores de <true> para vazia e <false> para contrário.

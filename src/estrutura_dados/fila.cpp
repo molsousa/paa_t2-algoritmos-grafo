@@ -13,6 +13,17 @@ fila::fila()
     this->fim = nullptr;
 }
 
+fila::~fila()
+{
+    lista* aux {inicio};
+
+    while(aux != nullptr){
+        lista* temp {aux};
+        aux = temp->prox;
+        delete temp;
+    }
+}
+
 bool fila::vazia() const
 {
     return (this->inicio == nullptr);

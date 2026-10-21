@@ -6,6 +6,7 @@
 #include "grafo.hpp"
 #include "pilha.hpp"
 #include "fila.hpp"
+#include "fila_prioridade.hpp"
 #include "utils.hpp"
 
 /**
@@ -26,9 +27,9 @@ private:
      * @param d Vetor de tempo de descoberta do vértice.
      * @param t Vetor de tempo de término.
      */
-    void dfs(grafo*, tipoVertice, cor*, pilha*, tipoTempo&, tipoTempo*, tipoTempo*);
+    void dfs(grafo&, tipoVertice, cor*, pilha*, tipoTempo&, tipoTempo*, tipoTempo*);
 
-    void dfs(grafo*, tipoVertice, cor*, tipoTempo&, tipoTempo*, pilha*);
+    void dfs(grafo&, tipoVertice, cor*, pilha*);
 
     /**
      * @brief
@@ -39,7 +40,7 @@ private:
      * @param cores Vetor de cores para início, descoberta ou término de vértices.
      * @param p Pilha de vértices.
      */
-    void bfs(grafo*, tipoVertice, tipoTempo*, cor*, pilha*);
+    void bfs(grafo&, tipoVertice, tipoTempo*, cor*, pilha*);
 
 public:
 
@@ -47,37 +48,37 @@ public:
      * @brief Algoritmo de busca em profundidade.
      * @param g grafo.
      */
-    void busca_profundidade(grafo*);
+    void busca_profundidade(grafo&);
 
     /**
      * @brief Algoritmo de busca em largura.
      * @param g grafo.
      */
-    void busca_largura(grafo*);
+    void busca_largura(grafo&);
 
     /**
      * @brief Algoritmo de ordenação topológica.
      * @param g grafo.
      */
-    void ordenacao_topologica(grafo*);
+    void ordenacao_topologica(grafo&);
 
     /**
      * @brief Vértices com componentes fortemente conexos.
      * @param g grafo.
      */
-    void componentes_fortemente_conexas(grafo*);
+    void componentes_fortemente_conexas(grafo&);
 
     /**
      * @brief Algoritmo de Djikstra.
      * @param g grafo.
      */
-    void djikstra(grafo*);
+    void djikstra(grafo&, tipoVertice);
 
     /**
      * @brief Algoritmo de Kruskal.
      * @param g grafo.
      */
-    void kruskal(grafo*);
+    void kruskal(grafo&);
 };
 
 #endif

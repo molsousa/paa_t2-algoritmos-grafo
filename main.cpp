@@ -1,3 +1,4 @@
+#include <iostream>
 #include "include/teste.h"
 
 int main(int argc, char** argv)
