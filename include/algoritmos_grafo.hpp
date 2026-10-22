@@ -17,8 +17,9 @@ class algoritmos
 private:
 
     /**
-     * @brief
-     * @details
+     * @brief Função-membro para aplicar algoritmo DFS.
+     * @details Aplica algoritmo DFS (Depth-First Search) recebendo os vértices brancos,
+     * transformando em cinza quando acessados e preto quando finalizados.
      * @param g grafo.
      * @param u Vértice referência.
      * @param cores Vetor de cores para início, descoberta ou término de vértices.
@@ -32,8 +33,8 @@ private:
     void dfs(grafo&, tipoVertice, cor*, pilha*);
 
     /**
-     * @brief
-     * @details
+     * @brief Função-membro para aplicar algoritmo BFS
+     * @details Aplica algoritmo BFS (Breadth First Search)
      * @param g grafo.
      * @param u Vértice referência.
      * @param dist Vetor de distância.

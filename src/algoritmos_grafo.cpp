@@ -26,6 +26,19 @@ void algoritmos::busca_profundidade(grafo& g)
     delete p;
 }
 
+/**
+ * @brief Função-membro para aplicar algoritmo DFS.
+ * @details Aplica algoritmo DFS (Depth-First Search) recebendo os vértices brancos,
+ * transformando em cinza quando acessados e preto quando finalizados. O algoritmo
+ * pode ser implementado com pilha como alternativa à recursão.
+ * @param g grafo.
+ * @param u Vértice referência.
+ * @param cores Vetor de cores para início, descoberta ou término de vértices.
+ * @param p Pilha de vértices.
+ * @param tempo Referência para tempo global.
+ * @param d Vetor de tempo de descoberta do vértice.
+ * @param t Vetor de tempo de término.
+ */
 void algoritmos::dfs(grafo& g,
                      tipoVertice u,
                      cor* cores,
@@ -89,6 +102,17 @@ void algoritmos::busca_largura(grafo& g)
     delete p;
 }
 
+/**
+ * @brief Função-membro para aplicar algoritmo BFS
+ * @details Aplica algoritmo BFS (Breadth First Search) recebendo vértices brancos,
+ * transformando em cinza quando acessados e preto quando finalizados. O algoritmo é
+ * baseado no uso de fila para acesso em largura.
+ * @param g grafo.
+ * @param u Vértice referência.
+ * @param dist Vetor de distância.
+ * @param cores Vetor de cores para início, descoberta ou término de vértices.
+ * @param p Pilha de vértices.
+ */
 void algoritmos::bfs(grafo& g,
                      tipoVertice u,
                      tipoTempo* dist,
@@ -154,6 +178,35 @@ void algoritmos::ordenacao_topologica(grafo& g)
     vertices_ordenados->imprimir();
 
     delete vertices_ordenados;
+}
+
+void algoritmos::dfs(grafo& g,
+                     tipoVertice u,
+                     cor* cores,
+                     pilha* vertices_ordenados)
+{
+    tipoVertice v;
+    bool fim_lista;
+    tipoPeso peso;
+    tipoVertice aux;
+
+    cores[u] = cinza;
+
+    if(!g.lista_adjacencia_vazia(u)){
+        aux = g.get_primeiro_adjacencia(u);
+        fim_lista = false;
+
+        while(!fim_lista){
+            v = g.prox_adjacencia(u, peso, aux, fim_lista);
+
+            if(cores[v] == branco){
+                dfs(g, v, cores, vertices_ordenados);
+            }
+        }
+    }
+
+    cores[u] = preto;
+    vertices_ordenados->push(u);
 }
 
 void algoritmos::componentes_fortemente_conexas(grafo& g)
@@ -223,35 +276,6 @@ void algoritmos::dfs_componente(grafo& g, tipoVertice u, cor* cores)
     cores[u] = preto;
 }
 
-void algoritmos::dfs(grafo& g,
-                     tipoVertice u,
-                     cor* cores,
-                     pilha* vertices_ordenados)
-{
-    tipoVertice v;
-    bool fim_lista;
-    tipoPeso peso;
-    tipoVertice aux;
-
-    cores[u] = cinza;
-
-    if(!g.lista_adjacencia_vazia(u)){
-        aux = g.get_primeiro_adjacencia(u);
-        fim_lista = false;
-
-        while(!fim_lista){
-            v = g.prox_adjacencia(u, peso, aux, fim_lista);
-
-            if(cores[v] == branco){
-                dfs(g, v, cores, vertices_ordenados);
-            }
-        }
-    }
-
-    cores[u] = preto;
-    vertices_ordenados->push(u);
-}
-
 void algoritmos::djikstra(grafo& g, tipoVertice origem)
 {
     const int NUM_VERTICES = g.get_num_vertices();
@@ -259,7 +283,7 @@ void algoritmos::djikstra(grafo& g, tipoVertice origem)
     tipoPeso dist[MAX_NUM_VERTICES];
     tipoVertice pai[MAX_NUM_VERTICES];
     cor cores[MAX_NUM_VERTICES];
-    tipoVertice u, v;
+    tipoVertice u;
     fila_prioridade* fp;
     bool fim_lista;
     tipoPeso peso;

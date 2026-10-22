@@ -2,7 +2,12 @@
 #include <format>
 #include "../../include/grafo.hpp"
 
-grafo::grafo(const tipoGrafo tipo)
+/**
+ * @brief Construtor.
+ * @details Constrói o grafo com número máximo de vértices.
+ * @param tipo Tipo de grafo (se orientado ou não orientado).
+ */
+grafo::grafo(const tipoGrafo tipo) : num_vertices(MAX_NUM_VERTICES), num_arestas(0)
 {
     for(tipoVertice i{}; i < MAX_NUM_VERTICES; ++i){
         for(tipoVertice j{}; j < MAX_NUM_VERTICES; ++i){
@@ -10,12 +15,17 @@ grafo::grafo(const tipoGrafo tipo)
         }
     }
 
-    this->set_num_vertices(MAX_NUM_VERTICES);
-    this->set_num_arestas(0);
     this->set_tipo_grafo(tipo);
 }
 
-grafo::grafo(const tipoVertice num_max, const tipoGrafo tipo)
+/**
+ * @brief Construtor.
+ * @details Constrói o grafo com número de vértices pré-definido.
+ * @param num_max Número máximo de vértices.
+ * @param tipo Tipo de grafo (se orientado ou não orientado).
+ * @overload
+ */
+grafo::grafo(const tipoVertice num_max, const tipoGrafo tipo) : num_vertices(num_max), num_arestas(0)
 {
     for(tipoVertice i{}; i < num_max; ++i){
         for(tipoVertice j{}; j < num_max; ++j){
@@ -23,46 +33,85 @@ grafo::grafo(const tipoVertice num_max, const tipoGrafo tipo)
         }
     }
 
-    this->set_num_vertices(num_max);
-    this->set_num_arestas(0);
-    this->set_tipo_grafo(tipo);
+    set_tipo_grafo(tipo);
 }
 
+/**
+ * @brief Destrutor.
+ * @details Destrutor para a classe grafo, imprime no console um texto de sucesso.
+ */
 grafo::~grafo()
 {
     std::cout << "Grafo removido\n";
 }
 
+/**
+ * @brief Função membro para definir o número de vértices.
+ * @details Define o valor do atributo <num_vertices>.
+ * @param num_vertices Número máximo de vértices.
+ */
 void grafo::set_num_vertices(const int num_vertices)
 {
     this->num_vertices = num_vertices;
 }
 
+/**
+ * @brief Função membro para recuperar valor do número de vértices.
+ * @details Recupera o valor do atributo <num_vertices>.
+ * @returns Número de vértices do grafo.
+ */
 int grafo::get_num_vertices() const
 {
     return this->num_vertices;
 }
 
+/**
+ * @brief Função membro para definir o número de arestas.
+ * @details Define o valor do atributo <num_arestas>.
+ * @param num_arestas Número de arestas do grafo.
+ */
 void grafo::set_num_arestas(const int num_arestas)
 {
     this->num_arestas = num_arestas;
 }
 
+/**
+ * @brief Função membro para recuperar valor do número de arestas.
+ * @details Recupera o valor do atributo <num_arestas>.
+ * @returns Número de arestas do grafo.
+ */
 int grafo::get_num_arestas() const
 {
     return this->num_arestas;
 }
 
+/**
+ * @brief Função membro para definir o tipo do grafo.
+ * @details Define o valor do atributo <tipo> para <orientado> ou <nao_orientado>.
+ * @param tipo Valor de tipo enumerado para <orientado> ou <nao_orientado>
+ */
 void grafo::set_tipo_grafo(const tipoGrafo tipo)
 {
     this->tipo = tipo;
 }
 
+/**
+ * @brief Função membro para recuperar tipo do grafo.
+ * @details Recupera o tipo do grafo no atributo <tipo> definido no construtor.
+ * @returns Tipo do grafo definido.
+ */
 tipoGrafo grafo::get_tipo_grafo() const
 {
     return this->tipo;
 }
 
+/**
+ * @brief Função membro para definir um valor de peso em uma aresta.
+ * @details Define o valor de peso em uma aresta específica do grafo <mat[v1][v2]>.
+ * @param v1 Vértice origem.
+ * @param v2 Vértice destino.
+ * @param peso Peso a ser atribuído a uma aresta.
+ */
 void grafo::set_valor_grafo(const tipoVertice v1,
                             const tipoVertice v2,
                             const tipoPeso peso)
@@ -70,12 +119,26 @@ void grafo::set_valor_grafo(const tipoVertice v1,
     this->mat[v1][v2] = peso;
 }
 
+/**
+ * @brief Função membro para recuperar valor do peso de uma aresta.
+ * @details Recupera o valor do peso do grafo em uma aresta específica <mat[v1][v2]>.
+ * @param v1 Vértice origem.
+ * @param v2 Vértice destino.
+ * @returns Valor atribuído na aresta buscada.
+ */
 tipoPeso grafo::get_valor_grafo(const tipoVertice v1,
                                 const tipoVertice v2)
 {
     return this->mat[v1][v2];
 }
 
+/**
+ * @brief Função membro para verificar se uma aresta existe.
+ * @details Verifica a existência de uma aresta verificando se o valor do peso é diferente de zero.
+ * @param v1 Vértice origem.
+ * @param v2 Vértice destino.
+ * @returns true se existe e false caso contrário.
+ */
 bool grafo::existe_aresta(tipoVertice v1, tipoVertice v2) const
 {
     if(v1 > this->num_vertices || v2 > this->get_num_vertices()){
@@ -86,6 +149,13 @@ bool grafo::existe_aresta(tipoVertice v1, tipoVertice v2) const
     return (this->mat[v1][v2] != 0.0);
 }
 
+/**
+ * @brief Função membro para inserir uma aresta no grafo.
+ * @param v1 Vértice origem.
+ * @param v2 Vértice destino
+ * @param peso Peso a ser inserido.
+ * @details Aresta inserida, caso seja uma nova, altera o contador de arestas.
+ */
 void grafo::inserir_aresta(const tipoVertice v1,
                            const tipoVertice v2,
                            const tipoPeso peso)
@@ -101,6 +171,12 @@ void grafo::inserir_aresta(const tipoVertice v1,
     set_valor_grafo(v1, v2, peso);
 }
 
+/**
+ * @brief Função-membro para recuperar o primeiro vértice adjacente.
+ * @details Recupera um vértice adjacente a partir de um vértice de refência (que pode sofrer alterações).
+ * @param v Vértice referencia.
+ * @returns Vértice adjacente.
+ */
 tipoVertice grafo::get_primeiro_adjacencia(tipoVertice& v)
 {
     tipoVertice res {0};
@@ -120,6 +196,12 @@ tipoVertice grafo::get_primeiro_adjacencia(tipoVertice& v)
     return res;
 }
 
+/**
+ * @brief Função-membro para verificar se a lista de adjacência é vazia.
+ * @details A partir de um vértice referência, retorna <true> se o vértice não tiver vértices adjacentes.
+ * @param u Vértice referencia.
+ * @returns <true> se a lista de adjacenteses for vazia.
+ */
 bool grafo::lista_adjacencia_vazia(tipoVertice v)
 {
     tipoVertice aux{0};
@@ -137,9 +219,18 @@ bool grafo::lista_adjacencia_vazia(tipoVertice v)
     return vazia;
 }
 
+/**
+ * @brief Função-membro para recuperar o próximo vértice de adjacência.
+ * @details Recupera o próximo vértice de adjacência a partir do vértice de referência.
+ * @param v vértice referência.
+ * @param peso peso.
+ * @param prox Próximo vértice adjacente.
+ * @param fim_lista valor booleano para delimitar o fim da lista.
+ * @returns Primeiro vértice adjacente com o vértice referência.
+ */
 tipoVertice grafo::prox_adjacencia(tipoVertice v,
                                    tipoPeso& peso,
-                                   int& prox,
+                                   tipoVertice& prox,
                                    bool& fim_lista) const
 {
     tipoVertice adj {prox};
@@ -157,6 +248,10 @@ tipoVertice grafo::prox_adjacencia(tipoVertice v,
     return adj;
 }
 
+/**
+ * @brief Função-membro para imprimir um grafo.
+ * @details Imprime no terminal um grafo em formato de matriz de adjacência.
+ */
 void grafo::imprimir_grafo()
 {
     std::cout << "   ";
@@ -180,6 +275,11 @@ void grafo::imprimir_grafo()
     std::cout << "\n";
 }
 
+/**
+ * @brief Função-membro para gerar um grafo transposto.
+ * @details Gera um grafo transposto a partir do grafo referência ja instanciado.
+ * @returns Ponteiro para novo grafo transposto.
+ */
 grafo* grafo::grafo_transposto()
 {
     grafo* o;

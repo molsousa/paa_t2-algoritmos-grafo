@@ -118,27 +118,43 @@ public:
     void inserir_aresta(const tipoVertice, const tipoVertice, const tipoPeso);
 
     /**
-     * @brief Função membro para imprimir grafo.
-     * @details Imprime grafo no console do terminal.
+     * @brief Função-membro para imprimir um grafo.
+     * @details Imprime no terminal um grafo em formato de matriz de adjacência.
      */
     void imprimir_grafo();
 
     /**
-     * @brief
-     * @details
-     * @param v
+     * @brief Função-membro para recuperar o primeiro vértice adjacente.
+     * @details Recupera um vértice adjacente a partir de um vértice de refência (que pode sofrer alterações).
+     * @param v Vértice referencia.
+     * @returns Vértice adjacente.
      */
     tipoVertice get_primeiro_adjacencia(tipoVertice&);
 
     /**
-     * @brief
-     * @details
-     * @param
+     * @brief Função-membro para verificar se a lista de adjacência é vazia.
+     * @details A partir de um vértice referência, retorna <true> se o vértice não tiver vértices adjacentes.
+     * @param u Vértice referencia.
+     * @returns <true> se a lista de adjacenteses for vazia.
      */
     bool lista_adjacencia_vazia(tipoVertice);
 
-    tipoVertice prox_adjacencia(tipoVertice, tipoPeso&, int&, bool&) const;
+    /**
+     * @brief Função-membro para recuperar o próximo vértice de adjacência.
+     * @details Recupera o próximo vértice de adjacência a partir do vértice de referência.
+     * @param v vértice referência.
+     * @param peso peso.
+     * @param prox Próximo vértice adjacente.
+     * @param fim_lista valor booleano para delimitar o fim da lista.
+     * @returns Primeiro vértice adjacente com o vértice referência.
+     */
+    tipoVertice prox_adjacencia(tipoVertice, tipoPeso&, tipoVertice&, bool&) const;
 
+    /**
+     * @brief Função-membro para gerar um grafo transposto.
+     * @details Gera um grafo transposto a partir do grafo referência ja instanciado.
+     * @returns Ponteiro para novo grafo transposto.
+     */
     grafo* grafo_transposto();
 };
 

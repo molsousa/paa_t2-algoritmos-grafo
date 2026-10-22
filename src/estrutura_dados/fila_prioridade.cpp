@@ -1,6 +1,12 @@
 #include <iostream>
 #include "../../include/fila_prioridade.hpp"
 
+/**
+ * @brief Construtor para fila de prioridade.
+ * @details Construtor que inicializa o tamanho da fila com 0,
+ * ponteiro pra distância ja definido e posições como <nil>.
+ * @param dist ponteiro para distância.
+ */
 fila_prioridade::fila_prioridade(tipoPeso* dist) : k(0), dist(dist)
 {
     for(size_t i{}; i < MAX_NUM_VERTICES; ++i){
@@ -8,16 +14,33 @@ fila_prioridade::fila_prioridade(tipoPeso* dist) : k(0), dist(dist)
     }
 }
 
+/**
+ * @brief Função-membro para verificar se uma fila de prioridade é vazia.
+ * @details Verifica se uma fila de prioridade é vazia a partir de um valor <k>.
+ * @returns retorna <true> se vazia.
+ */
 bool fila_prioridade::vazia() const
 {
     return k == 0;
 }
 
+/**
+ * @brief Função-membro para verificar se uma posição da fila contem itens.
+ * @details Verifica a partir de uma posição (com valor de vértice de referencia) se tem algum valor armazenado.
+ * @param v Vértice referência.
+ * @returns <true> se contem.
+ */
 bool fila_prioridade::contem(tipoVertice v) const
 {
     return pos[v] != -1;
 }
 
+/**
+ * @brief Função-membro para fazer troca de pesos.
+ * @details Efetua troca de pesos e de posições em caso de troca de prioridade.
+ * @param i Primeira posição.
+ * @param j Segunda posição.
+ */
 void fila_prioridade::troca(int i, int j)
 {
     tipoVertice u {heap[i]};
@@ -27,6 +50,12 @@ void fila_prioridade::troca(int i, int j)
     pos[heap[j]] = j;
 }
 
+/**
+ * @brief Função-membro para refazer heap.
+ * @details Reconstroi a árvore heap.
+ * @param esq indice esquerdo.
+ * @param dir indice direito.
+ */
 void fila_prioridade::refaz(int esq, int dir)
 {
     int i = esq;
@@ -52,6 +81,11 @@ void fila_prioridade::refaz(int esq, int dir)
     pos[item] = i;
 }
 
+/**
+ * @brief Função-membro para inserir valor na fila de prioridade.
+ * @details Insere novo valor na fila de prioridade.
+ * @param v Vértice referencia.
+ */
 void fila_prioridade::inserir(tipoVertice v)
 {
     ++k;
@@ -64,6 +98,11 @@ void fila_prioridade::inserir(tipoVertice v)
     }
 }
 
+/**
+ * @brief Função-membro para retirar valor mínimo do heap.
+ * @details Remove valor mínimo.
+ * @returns Retorna vértice mínimo
+ */
 tipoVertice fila_prioridade::retira_minimo()
 {
     tipoVertice v = heap[1];
@@ -79,6 +118,11 @@ tipoVertice fila_prioridade::retira_minimo()
     return v;
 }
 
+/**
+ * @brief Função-membro para diminuir chave em árvore heap.
+ * @details Diminui chave da árvore heap.
+ * @param v Vértice referência.
+ */
 void fila_prioridade::diminui_chave(tipoVertice v)
 {
     int i = pos[v];
