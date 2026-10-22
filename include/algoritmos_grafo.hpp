@@ -30,7 +30,7 @@ private:
      */
     void dfs(grafo&, tipoVertice, cor*, pilha*, tipoTempo&, tipoTempo*, tipoTempo*);
 
-    void dfs(grafo&, tipoVertice, cor*, pilha*);
+    bool dfs(grafo&, tipoVertice, cor*, pilha*, bool);
 
     /**
      * @brief Função-membro para aplicar algoritmo BFS

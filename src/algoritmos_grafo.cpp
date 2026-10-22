@@ -1,5 +1,7 @@
 #include <iostream>
 #include <format>
+#include "../include/aresta.hpp"
+#include "../include/union_find.hpp"
 #include "../include/algoritmos_grafo.hpp"
 
 void algoritmos::busca_profundidade(grafo& g)
@@ -168,22 +170,30 @@ void algoritmos::ordenacao_topologica(grafo& g)
         cores[u] = branco;
     }
 
+    bool ok;
+
     for(u = 0; u < NUM_VERTICES; ++u){
         if(cores[u] == branco){
-            dfs(g, u, cores, vertices_ordenados);
+            ok = dfs(g, u, cores, vertices_ordenados, true);
         }
     }
 
-    std::cout << "Ordenacao topologica: ";
-    vertices_ordenados->imprimir();
+    if(ok){
+        std::cout << "Ordenacao topologica: ";
+        vertices_ordenados->imprimir();
+    }
+    else{
+        std::cout << "\n";
+    }
 
     delete vertices_ordenados;
 }
 
-void algoritmos::dfs(grafo& g,
+bool algoritmos::dfs(grafo& g,
                      tipoVertice u,
                      cor* cores,
-                     pilha* vertices_ordenados)
+                     pilha* vertices_ordenados,
+                     bool ciclo)
 {
     tipoVertice v;
     bool fim_lista;
@@ -199,14 +209,22 @@ void algoritmos::dfs(grafo& g,
         while(!fim_lista){
             v = g.prox_adjacencia(u, peso, aux, fim_lista);
 
+            if(ciclo && cores[v] == cinza){
+                std::cout << std::format("Ciclo: {:d} -> {:d}. Ordenacao topologica impossivel.\n", u, v);
+                return false;
+            }
+
             if(cores[v] == branco){
-                dfs(g, v, cores, vertices_ordenados);
+                if(!dfs(g, v, cores, vertices_ordenados, ciclo)){
+                    return false;
+                }
             }
         }
     }
 
     cores[u] = preto;
     vertices_ordenados->push(u);
+    return true;
 }
 
 void algoritmos::componentes_fortemente_conexas(grafo& g)
@@ -223,7 +241,7 @@ void algoritmos::componentes_fortemente_conexas(grafo& g)
 
     for(u = 0; u < NUM_VERTICES; ++u){
         if(cores[u] == branco){
-            dfs(g, u, cores, vertices_ordenados);
+            dfs(g, u, cores, vertices_ordenados, false);
         }
     }
 
@@ -313,6 +331,10 @@ void algoritmos::djikstra(grafo& g, tipoVertice origem)
         while(!fim_lista){
             tipoVertice v = g.prox_adjacencia(u, peso, aux, fim_lista);
 
+            if(peso < 0.0){
+                continue;
+            }
+
             if(cores[v] == preto){
                 continue;
             }
@@ -344,7 +366,43 @@ void algoritmos::djikstra(grafo& g, tipoVertice origem)
     std::cout << "\n";
 }
 
+void algoritmos::kruskal(grafo& g)
+{
+    const int NUM_VERTICES = g.get_num_vertices();
 
+    aresta* arestas = new aresta[MAX_NUM_VERTICES * MAX_NUM_VERTICES / 2];
+    union_find* uf = new union_find(NUM_VERTICES);
+    tipoPeso peso = .0;
+    int num_arestas_mst = 0;
+    int k = g.extrair_arestas(arestas);
+
+    std::sort(arestas, arestas+k, [](const aresta& a, const aresta& b) {
+        return a.peso < b.peso;
+    });
+
+    std::cout << "Arestas da AGM Kruskal:\n";
+
+    for(size_t i{}; i < k && num_arestas_mst < NUM_VERTICES-1; ++i){
+        const aresta& e = arestas[i];
+
+        if(uf->uniao(e.u, e.v)){
+            std::cout << std::format("   ({:2d}, {:2d}) peso = {:6.2f}\n", e.u, e.v, e.peso);
+            peso += e.peso;
+            ++num_arestas_mst;
+        }
+        else{
+            std::cout << std::format("   ({:2d}, {:2d}) peso = {:6.2f}  [ignorada: ciclo]\n", e.u, e.v, e.peso);
+        }
+    }
+
+    std::cout << std::format("\nPeso total da AGM: {:6.2f}\n", peso);
+
+    if(num_arestas_mst < NUM_VERTICES - 1){
+        std::cout <<  "Aviso: grafo desconexo — AGM cobre " << num_arestas_mst << " de " << NUM_VERTICES << " vertices (resultando em floresta)\n";
+    }
+
+    delete[] arestas;
+}
 
 
 

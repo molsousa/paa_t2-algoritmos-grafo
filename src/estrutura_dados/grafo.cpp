@@ -184,7 +184,7 @@ tipoVertice grafo::get_primeiro_adjacencia(tipoVertice& v)
     tipoVertice aux {0};
 
     while(aux < num_vertices && vazia){
-        if(mat[v][aux] > 0.0){
+        if(mat[v][aux] != 0.0){
             vazia = false;
             res = aux;
         }
@@ -304,4 +304,68 @@ grafo* grafo::grafo_transposto()
         }
     }
     return o;
+}
+
+int grafo::extrair_arestas(aresta* arestas)
+{
+    const int NUM_VERTICES = get_num_vertices();
+    const tipoGrafo tipo = get_tipo_grafo();
+    int k = 0;
+
+    for(tipoVertice u{}; u < NUM_VERTICES; ++u){
+        tipoVertice v0 = (tipo == nao_orientado) ? u + 1 : 0;
+
+        for(tipoVertice v {v0}; v < NUM_VERTICES; ++v){
+            if(u == v){
+                continue;
+            }
+
+            tipoPeso peso = get_valor_grafo(u, v);
+            if(peso != 0.0){
+                arestas[k++] = {u, v, peso};
+            }
+        }
+    }
+
+    return k;
+}
+
+#include <fstream>
+#include <string>
+
+void grafo::exportar_graphviz(const std::string& nome_arquivo) const
+{
+    std::ofstream arquivo(nome_arquivo);
+
+    if(this->tipo == orientado){
+        arquivo << "digraph G {\n";
+    }
+    else{
+        arquivo << "graph G {\n";
+    }
+
+    arquivo << "  node [shape=circle];\n";
+
+    for(tipoVertice u = 0; u < this->num_vertices; ++u){
+        tipoVertice v_inicial = (this->tipo == nao_orientado) ? u + 1 : 0;
+
+        for(tipoVertice v = v_inicial; v < this->num_vertices; ++v){
+            if(u == v){
+                continue;
+            }
+
+            tipoPeso peso = this->mat[u][v];
+            if(peso != 0.0){
+                if (this->tipo == orientado){
+                    arquivo << "  " << u << " -> " << v
+                    << " [label=\"" << peso << "\"];\n";
+                }
+                else{
+                    arquivo << "  " << u << " -- " << v << " [label=\"" << peso << "\"];\n";
+                }
+            }
+        }
+    }
+
+    arquivo << "}\n";
 }

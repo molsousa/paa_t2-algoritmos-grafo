@@ -2,6 +2,7 @@
 #define GRAFO_H_INCLUDED
 
 #include "utils.hpp"
+#include "aresta.hpp"
 
 /**
  * @class grafo Classe para grafo orientado ou não orentado de peso com ponto flutuante.
@@ -156,6 +157,10 @@ public:
      * @returns Ponteiro para novo grafo transposto.
      */
     grafo* grafo_transposto();
+
+    int extrair_arestas(aresta*);
+
+    void exportar_graphviz(const std::string&) const;
 };
 
 #endif

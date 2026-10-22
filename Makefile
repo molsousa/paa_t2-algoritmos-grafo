@@ -4,7 +4,7 @@ DEBUG=-g
 OPT=-O0
 CXXFLAGS=$(DEBUG) $(OPT) $(WARN) -pipe
 LD=g++
-OBJS= main.o algoritmos_grafo.o grafo.o fila.o pilha.o teste.o fila_prioridade.o
+OBJS= main.o algoritmos_grafo.o grafo.o fila.o pilha.o teste.o fila_prioridade.o union_find.o
 
 all: $(OBJS)
 	$(LD) -o $(TARGET) $(OBJS) $(LDFLAGS)
@@ -30,3 +30,6 @@ teste.o: teste.cpp
 
 fila_prioridade.o: src/estrutura_dados/fila_prioridade.cpp
 	$(CXX) -c $(CXXFLAGS) src/estrutura_dados/fila_prioridade.cpp -o fila_prioridade.o
+
+union_find.o: src/estrutura_dados/union_find.cpp
+	$(CXX) -c $(CXXFLAGS) src/estrutura_dados/union_find.cpp -o union_find.o
