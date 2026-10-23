@@ -4,6 +4,13 @@
 #include "../include/union_find.hpp"
 #include "../include/algoritmos_grafo.hpp"
 
+/**
+ * @brief Algoritmo de busca em profundidade.
+ * @details Utiliza uma pilha para armazenar os pais dos vértices visitados;
+ *          cria vetores de tempo de descoberta e tempo final, além de uma
+ *          variável de tempo; todos os vértices são inicializados com cor branca;
+ * @param g grafo.
+ */
 void algoritmos::busca_profundidade(grafo& g)
 {
     const int NUM_VERTICES = g.get_num_vertices();
@@ -30,9 +37,11 @@ void algoritmos::busca_profundidade(grafo& g)
 
 /**
  * @brief Função-membro para aplicar algoritmo DFS.
- * @details Aplica algoritmo DFS (Depth-First Search) recebendo os vértices brancos,
- * transformando em cinza quando acessados e preto quando finalizados. O algoritmo
- * pode ser implementado com pilha como alternativa à recursão.
+ * @details Aplica algoritmo DFS (Depth-First Search) recebendo os
+ *          vértices brancos, transformando-os em cinza quando acessados
+ *          e preto quando finalizados. O algoritmo pode ser implementado
+ *          com pilha como alternativa à recursão. São impressos na tela
+ *          tanto o tempo de descoberta quanto o tempo final.
  * @param g grafo.
  * @param u Vértice referência.
  * @param cores Vetor de cores para início, descoberta ou término de vértices.
@@ -80,24 +89,31 @@ void algoritmos::dfs(grafo& g,
     std::cout << std::format("Visita: {:2d};          Tempo termino: {:8d}\n", u, t[u]);
 }
 
+/**
+ * @brief Algoritmo de busca em largura.
+ * @details Utiliza vetores de distancia para calcular a profundidade do grafo;
+ *          Todos os vértices são inicializados em branco; inicialmente a distancia
+ *          é inicializada com infinito.
+ * @param g grafo.
+ */
 void algoritmos::busca_largura(grafo& g)
 {
     const int NUM_VERTICES = g.get_num_vertices();
 
     tipoVertice u;
-    tipoTempo dist[MAX_NUM_VERTICES];
+    tipoVertice dist[MAX_NUM_VERTICES];
     cor cores[MAX_NUM_VERTICES];
     pilha* p = new pilha();
 
     for(u = 0; u < NUM_VERTICES; ++u){
         cores[u] = branco;
-        dist[u] = INFINITO;
+        dist[u] = INFINITO_VERTICE;
     }
 
     for(u = 0; u < NUM_VERTICES; ++u){
 
         if(cores[u] == branco){
-            bfs(g, u, dist, cores, p);
+            bfs(g, u, dist, cores);
         }
     }
 
@@ -107,8 +123,8 @@ void algoritmos::busca_largura(grafo& g)
 /**
  * @brief Função-membro para aplicar algoritmo BFS
  * @details Aplica algoritmo BFS (Breadth First Search) recebendo vértices brancos,
- * transformando em cinza quando acessados e preto quando finalizados. O algoritmo é
- * baseado no uso de fila para acesso em largura.
+ *          transformando em cinza quando acessados e preto quando finalizados;
+ *          O algoritmo é baseado no uso de fila para acesso em largura.
  * @param g grafo.
  * @param u Vértice referência.
  * @param dist Vetor de distância.
@@ -117,9 +133,8 @@ void algoritmos::busca_largura(grafo& g)
  */
 void algoritmos::bfs(grafo& g,
                      tipoVertice u,
-                     tipoTempo* dist,
-                     cor* cores,
-                     pilha* p)
+                     tipoVertice* dist,
+                     cor* cores)
 {
     tipoVertice v, aux;
     bool fim_lista;
@@ -146,7 +161,6 @@ void algoritmos::bfs(grafo& g,
                 if(cores[v] == branco){
                     cores[v] = cinza;
                     dist[v] = dist[u] + 1;
-                    p->push(v);
                     f->enqueue(v);
                 }
             }
@@ -189,6 +203,21 @@ void algoritmos::ordenacao_topologica(grafo& g)
     delete vertices_ordenados;
 }
 
+/**
+ * @brief Função-membro para aplicar algoritmo DFS.
+ * @details Versão alternativa do algoritmo DFS focado em servir de
+ *          base para ordenacao topologica e componentes fortemente
+ *          conexos; imprime na tela caso uma ordenacao topologica
+ *          for impossivel; possui demarcador para caso seja necessario
+ *          verificar ciclo (so seria necessario em ordenacao topologica);
+ *          É utilizado uma pilha de vértices para a ordenacao.
+ * @param g grafo.
+ * @param u Vértice referencia.
+ * @param cores vetor de cores.
+ * @param vertices_ordenados pilha de vértices ordenados.
+ * @param ciclo variavel booleana para caso precise verificar ciclo ou nao.
+ * @overload
+ */
 bool algoritmos::dfs(grafo& g,
                      tipoVertice u,
                      cor* cores,
@@ -227,7 +256,14 @@ bool algoritmos::dfs(grafo& g,
     return true;
 }
 
-void algoritmos::componentes_fortemente_conexas(grafo& g)
+/**
+ * @brief Função membro para verificar componentes fortemente conexos.
+ * @details Imprime na tela vértices com componentes fortemente conexos;
+ *          utiliza o algoritmo dfs overload e tambem uma modificacao do
+ *          dfs para visita no grafo tranposto;
+ * @param g grafo.
+ */
+void algoritmos::componentes_fortemente_conexas(grafo& g, tipoVertice* componente)
 {
     const int NUM_VERTICES = g.get_num_vertices();
 
@@ -237,6 +273,7 @@ void algoritmos::componentes_fortemente_conexas(grafo& g)
 
     for(u = 0; u < NUM_VERTICES; ++u){
         cores[u] = branco;
+        componente[u] = -1;
     }
 
     for(u = 0; u < NUM_VERTICES; ++u){
@@ -251,25 +288,36 @@ void algoritmos::componentes_fortemente_conexas(grafo& g)
         cores[u] = branco;
     }
 
-    int componente = 0;
+    int num_componentes {};
+
     while(!vertices_ordenados->vazia()){
         tipoVertice v = vertices_ordenados->pop();
 
         if(cores[v] == branco){
-            ++componente;
-            std::cout << std::format("CFC {:2d}: ", componente);
-            dfs_componente(*gT, v, cores);
-            std::cout << "\n";
+            dfs_componente(*gT, v, cores, componente, num_componentes);
+            ++num_componentes;
         }
     }
 
-    std::cout << std::format("\nTotal de CFC: {}\n\n", componente);
+    for(size_t i{}; i < num_componentes; ++i){
+        std::cout << std::format("CFC {:2d}: ", i);
+
+        for(u = 0; u < NUM_VERTICES; ++u){
+            if(componente[u] == i){
+                std::cout << std::format("{:3d}", u);
+            }
+        }
+
+        std::cout << "\n";
+    }
+
+    std::cout << "\nTotal de CFC: " << num_componentes << "\n\n";
 
     delete gT;
     delete vertices_ordenados;
 }
 
-void algoritmos::dfs_componente(grafo& g, tipoVertice u, cor* cores)
+void algoritmos::dfs_componente(grafo& g, tipoVertice u, cor* cores, tipoVertice* componente, int id_componente)
 {
     tipoVertice v;
     bool fim_lista;
@@ -277,7 +325,7 @@ void algoritmos::dfs_componente(grafo& g, tipoVertice u, cor* cores)
     tipoVertice aux;
 
     cores[u] = cinza;
-    std::cout << std::format("{:3d}", u);
+    componente[u] = id_componente;
 
     if(!g.lista_adjacencia_vazia(u)){
         aux = g.get_primeiro_adjacencia(u);
@@ -286,7 +334,7 @@ void algoritmos::dfs_componente(grafo& g, tipoVertice u, cor* cores)
         while(!fim_lista){
             v = g.prox_adjacencia(u, peso, aux, fim_lista);
             if(cores[v] == branco){
-                dfs_componente(g, v, cores);
+                dfs_componente(g, v, cores, componente, id_componente);
             }
         }
     }
@@ -294,6 +342,16 @@ void algoritmos::dfs_componente(grafo& g, tipoVertice u, cor* cores)
     cores[u] = preto;
 }
 
+/**
+ * @brief Algoritmo djikstra para encontrar menor caminho.
+ * @details Algoritmo djikstra para menor caminho: o algoritmo nao admite valores de
+ *          arestas negativas; utiliza um vetor de distancia e de pai, onde o vetor de
+ *          distância é inicialiado com <INFINITO> e pai com <-1>; utiliza uma fila de
+ *          prioridade para acessar o melhor caminho naquele momento; Caso o algoritmo
+ *          perceba que o custo está aumentando, pode voltar e procurar outro melhor caminho;
+ * @param g grafo.
+ * @param origem vértice de origem.
+ */
 void algoritmos::djikstra(grafo& g, tipoVertice origem)
 {
     const int NUM_VERTICES = g.get_num_vertices();
@@ -366,6 +424,14 @@ void algoritmos::djikstra(grafo& g, tipoVertice origem)
     std::cout << "\n";
 }
 
+/**
+ * @brief Algoritmo de Kruskal.
+ * @details Obtém uma AGM de um grafo adicionando a floresta uma aresta
+ *          de fmenor peso que nao forma ciclo; o uso de <fila_prioridade>
+ *          é para obter arestas em ordem crescente de peso; O algoritmo
+ *          testa se forma ciclo utilizando conjuntos classe: <union_find>.
+ * @param g grafo.
+ */
 void algoritmos::kruskal(grafo& g)
 {
     const int NUM_VERTICES = g.get_num_vertices();
@@ -375,6 +441,15 @@ void algoritmos::kruskal(grafo& g)
     tipoPeso peso = .0;
     int num_arestas_mst = 0;
     int k = g.extrair_arestas(arestas);
+
+    for(int i = 0; i < k; ++i){
+        if(arestas[i].peso < 0.0){
+            std::cout << std::format("Erro: peso negativo encontrado em ({:d}, {:d}) = {:.2f}.\n", arestas[i].u, arestas[i].v, arestas[i].peso);
+            delete[] arestas;
+            delete uf;
+            return;
+        }
+    }
 
     std::sort(arestas, arestas+k, [](const aresta& a, const aresta& b) {
         return a.peso < b.peso;

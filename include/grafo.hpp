@@ -98,7 +98,7 @@ public:
      * @param v2 Vértice destino.
      * @returns Valor atribuído na aresta buscada.
      */
-    tipoPeso get_valor_grafo(const tipoVertice, const tipoVertice);
+    tipoPeso get_valor_grafo(const tipoVertice, const tipoVertice) const;
 
     /**
      * @brief Função membro para verificar se uma aresta existe.
@@ -158,9 +158,25 @@ public:
      */
     grafo* grafo_transposto();
 
+    /**
+     * @brief Função-membro para extrair arestas do grafo.
+     * @param arestas vetor de arestas.
+     * @returns numero de arestas.
+     */
     int extrair_arestas(aresta*);
 
+    /**
+     * @brief Função-membro para exportar grafo.
+     * @param nome_arquivo nome do arquivo.
+     */
     void exportar_graphviz(const std::string&) const;
+
+    /**
+     * @brief Função-membro para exportar grafo para CFC
+     * @param nome_arquivo nome do arquivo.
+     * @param componente vetor de componentes.
+     */
+    void exportar_graphviz(const std::string&, const tipoVertice*) const;
 };
 
 #endif

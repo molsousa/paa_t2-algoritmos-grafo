@@ -17,6 +17,8 @@ typedef enum {orientado, nao_orientado} tipoGrafo;
 
 /// Definição de constante <INFINITO> para valor máximo de peso.
 const double INFINITO {std::numeric_limits<double>::max()};
+/// Definição de constante <INFINITO_VERTICE> para valor máximo de vértice.
+const tipoVertice INFINITO_VERTICE {std::numeric_limits<tipoVertice>::max()};
 /// Definição de constante <MAX_NUM_VERTICES> para máximo de vértices criados.
 const int MAX_NUM_VERTICES {4500};
 

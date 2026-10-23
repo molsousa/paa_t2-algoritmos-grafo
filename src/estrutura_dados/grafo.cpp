@@ -1,5 +1,8 @@
 #include <iostream>
 #include <format>
+#include <cmath>
+#include <fstream>
+#include <string>
 #include "../../include/grafo.hpp"
 
 /**
@@ -127,7 +130,7 @@ void grafo::set_valor_grafo(const tipoVertice v1,
  * @returns Valor atribuído na aresta buscada.
  */
 tipoPeso grafo::get_valor_grafo(const tipoVertice v1,
-                                const tipoVertice v2)
+                                const tipoVertice v2) const
 {
     return this->mat[v1][v2];
 }
@@ -306,6 +309,11 @@ grafo* grafo::grafo_transposto()
     return o;
 }
 
+/**
+ * @brief Função-membro para extrair arestas do grafo.
+ * @param arestas vetor de arestas.
+ * @returns numero de arestas.
+ */
 int grafo::extrair_arestas(aresta* arestas)
 {
     const int NUM_VERTICES = get_num_vertices();
@@ -330,9 +338,10 @@ int grafo::extrair_arestas(aresta* arestas)
     return k;
 }
 
-#include <fstream>
-#include <string>
-
+/**
+ * @brief Função-membro para exportar grafo.
+ * @param nome_arquivo nome do arquivo.
+ */
 void grafo::exportar_graphviz(const std::string& nome_arquivo) const
 {
     std::ofstream arquivo(nome_arquivo);
@@ -359,6 +368,60 @@ void grafo::exportar_graphviz(const std::string& nome_arquivo) const
                 if (this->tipo == orientado){
                     arquivo << "  " << u << " -> " << v
                     << " [label=\"" << peso << "\"];\n";
+                }
+                else{
+                    arquivo << "  " << u << " -- " << v << " [label=\"" << peso << "\"];\n";
+                }
+            }
+        }
+    }
+
+    arquivo << "}\n";
+}
+
+/**
+ * @brief Função-membro para exportar grafo para CFC
+ * @param nome_arquivo nome do arquivo.
+ * @param componente vetor de componentes.
+ */
+void grafo::exportar_graphviz(const std::string& nome_arquivo,
+                              const tipoVertice* componente) const
+{
+    std::ofstream arquivo(nome_arquivo);
+    const int NUM_VERTICES = get_num_vertices();
+
+    if(get_tipo_grafo() == orientado){
+        arquivo << "digraph G{\n";
+    }
+    else{
+        arquivo << "graph G{\n";
+    }
+
+    for(tipoVertice u {}; u < NUM_VERTICES; ++u){
+        int c = componente[u];
+
+        if(c < 0){
+            arquivo << "   " << u << " [shape=circle];\n";
+        }
+        else{
+            double hue = std::fmod(c * 0.61803398875, 1.0);
+            arquivo << "   " << u << " [shape=circle, style=filled, fillcolor=\"" << hue << " 0.65 0.95\"];\n";
+        }
+    }
+
+    for(tipoVertice u = 0; u < NUM_VERTICES; ++u){
+        tipoVertice v_inicial = (get_tipo_grafo() == nao_orientado) ? u+1 : 0;
+
+        for(tipoVertice v {v_inicial}; v < NUM_VERTICES; ++v){
+            if(u == v){
+                continue;
+            }
+
+            tipoPeso peso = get_valor_grafo(u, v);
+
+            if(peso != 0.0){
+                if(get_tipo_grafo() == orientado){
+                    arquivo << "  " << u << " -> " << v << " [label=\"" << peso << "\"];\n";
                 }
                 else{
                     arquivo << "  " << u << " -- " << v << " [label=\"" << peso << "\"];\n";

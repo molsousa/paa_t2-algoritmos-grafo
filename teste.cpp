@@ -9,10 +9,12 @@
 
 int criar_grafo()
 {
-    grafo* g = new grafo(7, orientado);
+    grafo* g = new grafo(5, orientado);
     grafo* gT;
     algoritmos algol;
+    tipoVertice componente[MAX_NUM_VERTICES];
 
+    /*
     g->inserir_aresta(0, 5, 11);
     g->inserir_aresta(0, 3, 5);
     g->inserir_aresta(3, 2, 7);
@@ -23,9 +25,17 @@ int criar_grafo()
     g->inserir_aresta(2, 4, 3);
     g->inserir_aresta(5, 4, -1);
     g->inserir_aresta(5, 6, 17);
-    g->inserir_aresta(4, 6, 5);
+    g->inserir_aresta(4, 6, 5);*/
 
-    g->exportar_graphviz("foto");
+    g->inserir_aresta(0, 1, 11);
+    g->inserir_aresta(0, 2, -4);
+    g->inserir_aresta(3, 0, 2);
+    g->inserir_aresta(3, 2, 8);
+    g->inserir_aresta(1, 3, -5);
+    g->inserir_aresta(2, 4, 7);
+    g->inserir_aresta(4, 2, 19);
+
+    g->exportar_graphviz("grafo");
 
     g->imprimir_grafo();
     std::cout << "\n";
@@ -40,12 +50,12 @@ int criar_grafo()
 
     gT = g->grafo_transposto();
 
-    g->imprimir_grafo();
     gT->imprimir_grafo();
 
     algol.djikstra(*g, 3);
 
-    algol.componentes_fortemente_conexas(*g);
+    algol.componentes_fortemente_conexas(*g, componente);
+    g->exportar_graphviz("cfc.dot", componente);
 
     algol.kruskal(*g);
 
