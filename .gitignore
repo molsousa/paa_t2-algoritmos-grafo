@@ -1,4 +1,7 @@
 .kdev4
 *.kdev4
 *.out
-
+*.dot 
+*.mol
+*.png
+*.txt

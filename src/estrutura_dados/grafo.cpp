@@ -432,3 +432,65 @@ void grafo::exportar_graphviz(const std::string& nome_arquivo,
 
     arquivo << "}\n";
 }
+
+void grafo::exportar_graphviz_mst(const std::string& nome_arquivo,
+                                  const aresta* mst,
+                                  int num_mst) const
+{
+    std::ofstream arquivo(nome_arquivo);
+
+    if(this->tipo == orientado) arquivo << "digraph G {\n";
+    else                        arquivo << "graph G {\n";
+
+    // nós
+    for(tipoVertice u = 0; u < this->num_vertices; ++u){
+        arquivo << "  " << u << " [shape=circle];\n";
+    }
+
+    // helper: pertence à MST?
+    auto na_mst = [&](tipoVertice u, tipoVertice v) -> bool{
+        for(int i = 0; i < num_mst; ++i){
+            if(mst[i].u == u && mst[i].v == v){
+                return true;
+            }
+            if(this->tipo == nao_orientado && mst[i].u == v && mst[i].v == u){
+                return true;
+            }
+        }
+        return false;
+    };
+
+    // arestas
+    for(tipoVertice u = 0; u < this->num_vertices; ++u){
+        tipoVertice v0 = (this->tipo == nao_orientado) ? u + 1 : 0;
+
+        for(tipoVertice v = v0; v < this->num_vertices; ++v){
+            if(u == v) continue;
+
+            tipoPeso peso = this->mat[u][v];
+            if(peso == 0.0) continue;
+
+            bool da_mst = na_mst(u, v);
+            const char* cor = da_mst ? "red"   : "gray50";
+            const char* larg = da_mst ? "2.5"   : "1.0";
+            const char* estilo = da_mst ? "solid" : "dashed";
+
+            if(this->tipo == orientado){
+                arquivo << "  " << u << " -> " << v
+                << " [label=\"" << peso << "\""
+                << ", color=" << cor
+                << ", penwidth=" << larg
+                << ", style=" << estilo << "];\n";
+            }
+            else{
+                arquivo << "  " << u << " -- " << v
+                << " [label=\"" << peso << "\""
+                << ", color=" << cor
+                << ", penwidth=" << larg
+                << ", style=" << estilo << "];\n";
+            }
+        }
+    }
+
+    arquivo << "}\n";
+}

@@ -432,60 +432,41 @@ void algoritmos::djikstra(grafo& g, tipoVertice origem)
  *          testa se forma ciclo utilizando conjuntos classe: <union_find>.
  * @param g grafo.
  */
-void algoritmos::kruskal(grafo& g)
+void algoritmos::kruskal(grafo& g, aresta* mst, int& num_mst)
 {
     const int NUM_VERTICES = g.get_num_vertices();
 
-    aresta* arestas = new aresta[MAX_NUM_VERTICES * MAX_NUM_VERTICES / 2];
-    union_find* uf = new union_find(NUM_VERTICES);
-    tipoPeso peso = .0;
-    int num_arestas_mst = 0;
+    aresta* arestas = new aresta[MAX_NUM_VERTICES*MAX_NUM_VERTICES/2];
     int k = g.extrair_arestas(arestas);
 
-    for(int i = 0; i < k; ++i){
-        if(arestas[i].peso < 0.0){
-            std::cout << std::format("Erro: peso negativo encontrado em ({:d}, {:d}) = {:.2f}.\n", arestas[i].u, arestas[i].v, arestas[i].peso);
-            delete[] arestas;
-            delete uf;
-            return;
-        }
-    }
-
-    std::sort(arestas, arestas+k, [](const aresta& a, const aresta& b) {
+    std::sort(arestas, arestas + k, [](const aresta& a, const aresta& b){
         return a.peso < b.peso;
     });
 
+    union_find* uf  = new union_find(NUM_VERTICES);
+    tipoPeso peso_total = .0;
+
     std::cout << "Arestas da AGM Kruskal:\n";
 
-    for(size_t i{}; i < k && num_arestas_mst < NUM_VERTICES-1; ++i){
+    for(int i = 0; i < k && num_mst < NUM_VERTICES - 1; ++i){
         const aresta& e = arestas[i];
 
         if(uf->uniao(e.u, e.v)){
             std::cout << std::format("   ({:2d}, {:2d}) peso = {:6.2f}\n", e.u, e.v, e.peso);
-            peso += e.peso;
-            ++num_arestas_mst;
+            mst[num_mst++] = e;
+            peso_total += e.peso;
         }
         else{
             std::cout << std::format("   ({:2d}, {:2d}) peso = {:6.2f}  [ignorada: ciclo]\n", e.u, e.v, e.peso);
         }
     }
 
-    std::cout << std::format("\nPeso total da AGM: {:6.2f}\n", peso);
+    std::cout << std::format("\nPeso total da AGM: {:6.2f}\n", peso_total);
 
-    if(num_arestas_mst < NUM_VERTICES - 1){
-        std::cout <<  "Aviso: grafo desconexo — AGM cobre " << num_arestas_mst << " de " << NUM_VERTICES << " vertices (resultando em floresta)\n";
+    if(num_mst < NUM_VERTICES - 1){
+        std::cout << "Grafo desconexo, AGM cobre " << num_mst << " de " << NUM_VERTICES << " vertices resultando em floresta\n";
     }
 
     delete[] arestas;
+    delete uf;
 }
-
-
-
-
-
-
-
-
-
-
-

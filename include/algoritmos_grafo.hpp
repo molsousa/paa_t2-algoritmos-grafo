@@ -115,7 +115,7 @@ public:
      *          testa se forma ciclo utilizando conjuntos classe: <union_find>.
      * @param g grafo.
      */
-    void kruskal(grafo&);
+    void kruskal(grafo&, aresta*, int&);
 };
 
 #endif

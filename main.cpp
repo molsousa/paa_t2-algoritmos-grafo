@@ -1,7 +1,8 @@
-#include <iostream>
-#include "include/teste.h"
+#include "include/algraph.mol.hpp"
 
 int main(int argc, char** argv)
 {
-    return criar_grafo();
+    algraph_mol();
+
+    return 0;
 }

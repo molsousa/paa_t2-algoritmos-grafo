@@ -1,6 +1,7 @@
 #ifndef GRAFO_H_INCLUDED
 #define GRAFO_H_INCLUDED
 
+#include <string>
 #include "utils.hpp"
 #include "aresta.hpp"
 
@@ -177,6 +178,9 @@ public:
      * @param componente vetor de componentes.
      */
     void exportar_graphviz(const std::string&, const tipoVertice*) const;
+
+    // grafo.hpp
+    void exportar_graphviz_mst(const std::string&, const aresta*, int) const;
 };
 
 #endif
