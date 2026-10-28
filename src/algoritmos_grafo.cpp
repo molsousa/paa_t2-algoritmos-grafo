@@ -172,6 +172,11 @@ void algoritmos::bfs(grafo& g,
     }
 }
 
+/**
+ * @brief Algoritmo de ordenação topológica.
+ * @details Utiliza uma pilha para ordenar os vértices com base no tempo de término
+ * @param g grafo.
+ */
 void algoritmos::ordenacao_topologica(grafo& g)
 {
     const int NUM_VERTICES = g.get_num_vertices();
@@ -284,6 +289,10 @@ void algoritmos::componentes_fortemente_conexas(grafo& g, tipoVertice* component
 
     grafo* gT = g.grafo_transposto();
 
+    if(gT == nullptr){
+        std::cout << "";
+    }
+
     for(u = 0; u < NUM_VERTICES; ++u){
         cores[u] = branco;
     }
@@ -317,6 +326,16 @@ void algoritmos::componentes_fortemente_conexas(grafo& g, tipoVertice* component
     delete vertices_ordenados;
 }
 
+/**
+ * @brief Função-membro com modificação do DFS para CFC
+ * @details Objetivo da terceira modificação é adicionar os diferentes
+ *          componentes dentro do vetor de componentes.
+ * @param g grafo.
+ * @param u vértice referencia.
+ * @param cores vetor de cores.
+ * @param componente vetor de componentes.
+ * @param id_componente componente referencia.
+ */
 void algoritmos::dfs_componente(grafo& g, tipoVertice u, cor* cores, tipoVertice* componente, int id_componente)
 {
     tipoVertice v;

@@ -16,6 +16,8 @@ private:
      * @details Efetua troca de pesos e de posições em caso de troca de prioridade.
      * @param i Primeira posição.
      * @param j Segunda posição.
+     * Pre-condicao: nenhuma.
+     * Pos-condicao: nenhuma.
      */
     void troca(int, int);
 
@@ -24,6 +26,8 @@ private:
      * @details Reconstroi a árvore heap.
      * @param esq indice esquerdo.
      * @param dir indice direito.
+     * Pre-condicao: nenhuma.
+     * Pos-condicao: nenhuma.
      */
     void refaz(int, int);
 
@@ -32,6 +36,8 @@ public:
      * @brief Construtor para fila de prioridade.
      * @details Construtor que inicializa o tamanho da fila com 0,<br> ponteiro pra distância ja definido
      * @param dist ponteiro para distância.
+     * Pre-condicao: nenhuma.
+     * Pos-condicao: nenhuma.
      */
     explicit fila_prioridade(tipoPeso*);
 
@@ -39,6 +45,8 @@ public:
      * @brief Função-membro para verificar se uma fila de prioridade é vazia.
      * @details Verifica se uma fila de prioridade é vazia a partir de um valor <k>.
      * @returns retorna <true> se vazia.
+     * Pre-condicao: nenhuma.
+     * Pos-condicao: nenhuma.
      */
     bool vazia() const;
 
@@ -47,6 +55,8 @@ public:
      * @details Verifica a partir de uma posição (com valor de vértice de referencia) se tem algum valor armazenado.
      * @param v Vértice referência.
      * @returns <true> se contem.
+     * Pre-condicao: nenhuma.
+     * Pos-condicao: nenhuma.
      */
     bool contem(tipoVertice) const;
 
@@ -54,6 +64,8 @@ public:
      * @brief Função-membro para inserir valor na fila de prioridade.
      * @details Insere novo valor na fila de prioridade.
      * @param v Vértice referencia.
+     * Pre-condicao: nenhuma.
+     * Pos-condicao: nenhuma.
      */
     void inserir(tipoVertice);
 
@@ -61,6 +73,8 @@ public:
      * @brief Função-membro para retirar valor mínimo do heap.
      * @details Remove valor mínimo.
      * @returns Retorna vértice mínimo
+     * Pre-condicao: nenhuma.
+     * Pos-condicao: nenhuma.
      */
     tipoVertice retira_minimo();
 
@@ -68,6 +82,8 @@ public:
      * @brief Função-membro para diminuir chave em árvore heap.
      * @details Diminui chave da árvore heap.
      * @param v Vértice referência.
+     * Pre-condicao: nenhuma.
+     * Pos-condicao: nenhuma.
      */
     void diminui_chave(tipoVertice);
 };

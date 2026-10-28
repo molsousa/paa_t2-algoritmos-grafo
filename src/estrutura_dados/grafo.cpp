@@ -433,47 +433,60 @@ void grafo::exportar_graphviz(const std::string& nome_arquivo,
     arquivo << "}\n";
 }
 
-void grafo::exportar_graphviz_mst(const std::string& nome_arquivo,
-                                  const aresta* mst,
-                                  int num_mst) const
+/**
+ * @brief Função-membro para exportar grafo para Kruskal
+ * @param nome_arquivo nome do arquivo.
+ * @param agm vetor de arestas.
+ * @param num_agm numero de arestas.
+ * Pre-condicao: nenhuma.
+ * Pos-condicao: nenhuma.
+ */
+void grafo::exportar_graphviz_agm(const std::string& nome_arquivo,
+                                  const aresta* agm,
+                                  int num_agm) const
 {
     std::ofstream arquivo(nome_arquivo);
 
-    if(this->tipo == orientado) arquivo << "digraph G {\n";
-    else                        arquivo << "graph G {\n";
+    if(this->tipo == orientado){
+        arquivo << "digraph G {\n";
+    }
+    else{
+        arquivo << "graph G {\n";
+    }
 
-    // nós
     for(tipoVertice u = 0; u < this->num_vertices; ++u){
         arquivo << "  " << u << " [shape=circle];\n";
     }
 
-    // helper: pertence à MST?
     auto na_mst = [&](tipoVertice u, tipoVertice v) -> bool{
-        for(int i = 0; i < num_mst; ++i){
-            if(mst[i].u == u && mst[i].v == v){
+        for(int i = 0; i < num_agm; ++i){
+            if(agm[i].u == u && agm[i].v == v){
                 return true;
             }
-            if(this->tipo == nao_orientado && mst[i].u == v && mst[i].v == u){
+            if(this->tipo == nao_orientado && agm[i].u == v && agm[i].v == u){
                 return true;
             }
         }
         return false;
     };
 
-    // arestas
     for(tipoVertice u = 0; u < this->num_vertices; ++u){
         tipoVertice v0 = (this->tipo == nao_orientado) ? u + 1 : 0;
 
         for(tipoVertice v = v0; v < this->num_vertices; ++v){
-            if(u == v) continue;
+            if(u == v){
+                continue;
+            }
 
             tipoPeso peso = this->mat[u][v];
-            if(peso == 0.0) continue;
+            if(peso == 0.0){
+                continue;
+            }
 
-            bool da_mst = na_mst(u, v);
-            const char* cor = da_mst ? "red"   : "gray50";
-            const char* larg = da_mst ? "2.5"   : "1.0";
-            const char* estilo = da_mst ? "solid" : "dashed";
+            bool da_agm = na_mst(u, v);
+            const char* cor = da_agm ? "red" : "gray50";
+            const char* larg = da_agm ? "2.5" : "1.0";
+            const char* estilo = da_agm ? "solid" : "dashed";
 
             if(this->tipo == orientado){
                 arquivo << "  " << u << " -> " << v

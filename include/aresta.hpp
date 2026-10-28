@@ -3,6 +3,9 @@
 
 #include "utils.hpp"
 
+/**
+ * @struct aresta estrutura para aresta para execução de algoritmos.
+ */
 struct aresta{
     tipoVertice u;
     tipoVertice v;

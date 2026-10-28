@@ -30,6 +30,8 @@ private:
      * @param tempo Referência para tempo global.
      * @param d Vetor de tempo de descoberta do vértice.
      * @param t Vetor de tempo de término.
+     * Pre-condicao: nenhuma.
+     * Pos-condicao: nenhuma.
      */
     void dfs(grafo&, tipoVertice, cor*, pilha*, tipoTempo&, tipoTempo*, tipoTempo*);
 
@@ -47,6 +49,8 @@ private:
      * @param vertices_ordenados pilha de vértices ordenados.
      * @param ciclo variavel booleana para caso precise verificar ciclo ou nao.
      * @overload
+     * Pre-condicao: nenhuma.
+     * Pos-condicao: nenhuma.
      */
     bool dfs(grafo&, tipoVertice, cor*, pilha*, bool);
 
@@ -58,9 +62,23 @@ private:
      * @param dist Vetor de distância.
      * @param cores Vetor de cores para início, descoberta ou término de vértices.
      * @param p Pilha de vértices.
+     * Pre-condicao: nenhuma.
+     * Pos-condicao: nenhuma.
      */
     void bfs(grafo&, tipoVertice, tipoVertice*, cor*);
 
+    /**
+     * @brief Função-membro com modificação do DFS para CFC
+     * @details Objetivo da terceira modificação é adicionar os diferentes
+     *          componentes dentro do vetor de componentes.
+     * @param g grafo.
+     * @param u vértice referencia.
+     * @param cores vetor de cores.
+     * @param componente vetor de componentes.
+     * @param id_componente componente referencia.
+     * Pre-condicao: nenhuma.
+     * Pos-condicao: nenhuma.
+     */
     void dfs_componente(grafo&, tipoVertice, cor*, tipoVertice*, int);
 
 public:
@@ -71,18 +89,28 @@ public:
      *          cria vetores de tempo de descoberta e tempo final, além de uma
      *          variável de tempo; todos os vértices são inicializados com cor branca;
      * @param g grafo.
+     * Pre-condicao: nenhuma.
+     * Pos-condicao: nenhuma.
      */
     void busca_profundidade(grafo&);
 
     /**
      * @brief Algoritmo de busca em largura.
+     * @details Utiliza vetores de distancia para calcular a profundidade do grafo;
+     *          Todos os vértices são inicializados em branco; inicialmente a distancia
+     *          é inicializada com infinito.
      * @param g grafo.
+     * Pre-condicao: nenhuma.
+     * Pos-condicao: nenhuma.
      */
     void busca_largura(grafo&);
 
     /**
      * @brief Algoritmo de ordenação topológica.
+     * @details Utiliza uma pilha para ordenar os vértices com base no tempo de término
      * @param g grafo.
+     * Pre-condicao: nenhuma.
+     * Pos-condicao: nenhuma.
      */
     void ordenacao_topologica(grafo&);
 
@@ -92,6 +120,8 @@ public:
      *          utiliza o algoritmo dfs overload e tambem uma modificacao do
      *          dfs para visita no grafo tranposto;
      * @param g grafo.
+     * Pre-condicao: nenhuma.
+     * Pos-condicao: nenhuma.
      */
     void componentes_fortemente_conexas(grafo&, tipoVertice*);
 
@@ -104,6 +134,8 @@ public:
      *          perceba que o custo está aumentando, pode voltar e procurar outro melhor caminho;
      * @param g grafo.
      * @param origem vértice de origem.
+     * Pre-condicao: nenhuma.
+     * Pos-condicao: nenhuma.
      */
     void djikstra(grafo&, tipoVertice);
 
@@ -114,6 +146,8 @@ public:
      *          é para obter arestas em ordem crescente de peso; O algoritmo
      *          testa se forma ciclo utilizando conjuntos classe: <union_find>.
      * @param g grafo.
+     * Pre-condicao: nenhuma.
+     * Pos-condicao: nenhuma.
      */
     void kruskal(grafo&, aresta*, int&);
 };

@@ -2,11 +2,55 @@
 #include <sstream>
 #include <string>
 #include <limits>
+#include <cstdlib>
 #include "../include/interface.hpp"
 #include "../include/grafo.hpp"
 #include "../include/algoritmos_grafo.hpp"
 #include "../include/algraph.mol.hpp"
 
+/**
+ * @brief Função para inicializar o programa.
+ * @details Cria um novo grafo e abre opções de algoritmos
+ *          para execução.
+ */
+void algraph_mol()
+{
+    int opcao;
+    std::string str;
+
+    do{
+        interface_carregar_grafo();
+        std::cout << "Escolha uma opcao: ";
+        std::cin >> opcao;
+        limpar_buffer();
+
+        switch(opcao){
+            case 1:{
+                std::cout << "Insira o nome do arquivo: ";
+                getline(std::cin, str);
+                grafo* g = carregar_arquivo(str);
+                cls();
+                algraph_mol_execucao(g);
+                delete g;
+                break;
+            }
+            case 0:{
+                std::cout << "Obrigado!!";
+                break;
+            }
+            default:{
+                std::cout << "Opcao invalida, tente novamente";
+            }
+        }
+    }while(opcao != 0);
+}
+
+/**
+ * @brief Função para carregar arquivo com grafo.
+ * @details Extrai do arquivo de texto um grafo segundo a sintaxe prevista.
+ * @param nome_arquivo arquivo de texto com grafo.
+ * @returns grafo criado.
+ */
 grafo* carregar_arquivo(const std::string& nome_arquivo)
 {
     std::ifstream arquivo(nome_arquivo);
@@ -65,38 +109,12 @@ grafo* carregar_arquivo(const std::string& nome_arquivo)
     return g;
 }
 
-void algraph_mol()
-{
-    int opcao;
-    std::string str;
-
-    do{
-        interface_carregar_grafo();
-        std::cout << "Escolha uma opcao: ";
-        std::cin >> opcao;
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-
-        switch(opcao){
-            case 1:{
-                std::cout << "Insira o nome do arquivo: ";
-                getline(std::cin, str);
-                grafo* g = carregar_arquivo(str);
-                cls();
-                algraph_mol_execucao(g);
-                delete g;
-                break;
-            }
-            case 0:{
-                std::cout << "Obrigado!!";
-                break;
-            }
-            default:{
-                std::cout << "Opcao invalida, tente novamente";
-            }
-        }
-    }while(opcao != 0);
-}
-
+/**
+ * @brief Função para executar o programa.
+ * @details Executa os algoritmos que o usuario escolher
+ *          em menu de opcoes.
+ * @param g Grafo ja inicializado.
+ */
 void algraph_mol_execucao(grafo* g)
 {
     int opcao;
@@ -111,13 +129,14 @@ void algraph_mol_execucao(grafo* g)
         menu_algoritmos();
         std::cout << "Escolha uma opcao: ";
         std::cin >> opcao;
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        limpar_buffer();
 
         switch(opcao){
             case 1:{
                 std::cout << "Insira o nome do arquivo de saida: ";
                 getline(std::cin, str);
                 g->exportar_graphviz(str);
+                cls();
                 break;
             }
             case 2:{
@@ -148,11 +167,13 @@ void algraph_mol_execucao(grafo* g)
                 std::cout << "Insira o nome do arquivo de saida: ";
                 getline(std::cin, str);
                 g->exportar_graphviz(str, componente);
+                cls();
                 break;
             }
             case 7:{
                 std::cout << "Insira o vertice de origem: ";
                 std::cin >> origem;
+                limpar_buffer();
                 algol.djikstra(*g, origem);
                 pause_3();
                 cls();
@@ -168,6 +189,7 @@ void algraph_mol_execucao(grafo* g)
                 std::cout << "Insira o nome do arquivo de saida: ";
                 getline(std::cin, str);
                 g->exportar_graphviz_mst(str, mst, num_mst);
+                cls();
                 break;
             }
             case 0:{
