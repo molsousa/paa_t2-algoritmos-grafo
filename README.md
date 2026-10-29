@@ -99,6 +99,12 @@ Os grafos foram gerados usando o software externo: '[*graphviz*](#referências)'
 
 São três tipos de geração de grafo: o grafo gerado normalmente, o grafo com os componentes fortemente conexos e as arestas após gerar AGM Kruskal.
 
+Após gerar o arquivo-fonte, deve executar no mesmo local onde foi gerado o arquivo.
+
+```sh
+dot -Tpng arq.dot -o arq.png
+```
+
 Segue abaixo três grafos diferentes com as suas respectivas gerações:
 
 ### Grafo comum:
