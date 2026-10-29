@@ -12,7 +12,7 @@ Este repositório contém seis algoritmos em grafo implementados em C++ para a d
 
 ## Estrutura
 
-O grafo foi implementado utilizando matriz de adjacência, adaptado do Pascal no material de Nivio Ziviani em Projeto de Algoritmos: com implementação em Pascal e C.
+O grafo foi implementado utilizando matriz de adjacência, adaptado do Pascal no material de [Nivio Ziviani em Projeto de Algoritmos: com implementação em Pascal e C](#referências).
 
 ```cpp  
 class grafo
@@ -95,6 +95,8 @@ Na implementação é permitido valores negativos de pesos de arestas.
 
 Para esse trabalho, fora solicitado que incluísse geração dos grafos.
 
+Os grafos foram gerados usando o software externo: '[*graphviz*](#referências)'
+
 São três tipos de geração de grafo: o grafo gerado normalmente, o grafo com os componentes fortemente conexos e as arestas após gerar AGM Kruskal.
 
 Segue abaixo três grafos diferentes com as suas respectivas gerações:
@@ -158,5 +160,13 @@ O arquivo de texto que contém o grafo na sintaxe acima deve ser adicionado na p
 ### Menu para seleção de algoritmo 
 
 ![menu_algoritmos](img/menu_algoritmos.png)
+
+## Referências
+
+GRAPHVIZ. **Graphviz**. [S. l.]: Graphviz, [2026]. Disponível em: https://graphviz.org/. Acesso em: 27 out. 2026.
+
+ZIVIANI, Nivio. **Projeto de algoritmos: com implementações em Pascal e C**. 3. ed. São Paulo: Cengage Learning, 2011. 639 p.
+
+CORMEN, Thomas H.; LEISERSON, Charles E.; RIVEST, Ronald L.; STEIN, Clifford. **Introduction to algorithms**. 3rd ed. Cambridge, MA: MIT Press, 2009. Disponível em: https://www.cs.mcgill.ca/~akroit/math/compsci/Cormen%20Introduction%20to%20Algorithms.pdf. Acesso em: 27 out. 2026.
 
 ---
