@@ -13,8 +13,8 @@
 grafo::grafo(const tipoGrafo tipo) : num_vertices(MAX_NUM_VERTICES), num_arestas(0)
 {
     for(tipoVertice i{}; i < MAX_NUM_VERTICES; ++i){
-        for(tipoVertice j{}; j < MAX_NUM_VERTICES; ++i){
-            mat[i][j] = 0.0;
+        for(tipoVertice j{}; j < MAX_NUM_VERTICES; ++j){
+            mat[i][j] = INFINITO;
         }
     }
 
@@ -32,7 +32,7 @@ grafo::grafo(const tipoVertice num_max, const tipoGrafo tipo) : num_vertices(num
 {
     for(tipoVertice i{}; i < num_max; ++i){
         for(tipoVertice j{}; j < num_max; ++j){
-            mat[i][j] = 0.0;
+            mat[i][j] = INFINITO;
         }
     }
 
@@ -149,7 +149,7 @@ bool grafo::existe_aresta(tipoVertice v1, tipoVertice v2) const
         return false;
     }
 
-    return (this->mat[v1][v2] != 0.0);
+    return (this->mat[v1][v2] != INFINITO);
 }
 
 /**
@@ -163,10 +163,10 @@ void grafo::inserir_aresta(const tipoVertice v1,
                            const tipoVertice v2,
                            const tipoPeso peso)
 {
-    if(get_valor_grafo(v1, v2) == 0.0 && this->tipo == orientado){
+    if(get_valor_grafo(v1, v2) == INFINITO && this->tipo == orientado){
         this->num_arestas++;
     }
-    else if(get_valor_grafo(v1, v2) == 0.0 && this->tipo == nao_orientado){
+    else if(get_valor_grafo(v1, v2) == INFINITO && this->tipo == nao_orientado){
         this->num_arestas += 2;
         set_valor_grafo(v2, v1, peso);
     }
@@ -187,7 +187,7 @@ tipoVertice grafo::get_primeiro_adjacencia(tipoVertice& v)
     tipoVertice aux {0};
 
     while(aux < num_vertices && vazia){
-        if(mat[v][aux] != 0.0){
+        if(mat[v][aux] != INFINITO){
             vazia = false;
             res = aux;
         }
@@ -211,7 +211,7 @@ bool grafo::lista_adjacencia_vazia(tipoVertice v)
     bool vazia{true};
 
     while(aux < num_vertices && vazia){
-        if(mat[v][aux] != 0.0){
+        if(mat[v][aux] != INFINITO){
             vazia = false;
         }
         else{
@@ -240,7 +240,7 @@ tipoVertice grafo::prox_adjacencia(tipoVertice v,
     peso = mat[v][prox];
     ++prox;
 
-    while(prox < num_vertices && mat[v][prox] == 0.0){
+    while(prox < num_vertices && mat[v][prox] == INFINITO){
         ++prox;
     }
 
@@ -260,7 +260,7 @@ void grafo::imprimir_grafo()
     std::cout << "   ";
 
     for(tipoVertice i{}; i < this->num_vertices; ++i){
-        std::cout << "|" << i << "   |";
+        std::cout << "|" << i << "    |";
     }
 
     std::cout << "\n";
@@ -269,7 +269,14 @@ void grafo::imprimir_grafo()
         std::cout << std::format("{:d}->", i);
 
         for(tipoVertice j{}; j < this->num_vertices; ++j){
-            std::cout << std::format("|{0:4.1f}|", this->mat[i][j]);
+            tipoPeso peso = this->mat[i][j];
+
+            if(peso != INFINITO){
+                std::cout << std::format("|{0:5.1f}|", peso);
+            }
+            else{
+                std::cout << std::format("|{0:5}|", "*****");
+            }
         }
 
         std::cout << "\n";
@@ -329,7 +336,7 @@ int grafo::extrair_arestas(aresta* arestas)
             }
 
             tipoPeso peso = get_valor_grafo(u, v);
-            if(peso != 0.0){
+            if(peso != INFINITO){
                 arestas[k++] = {u, v, peso};
             }
         }
@@ -364,7 +371,7 @@ void grafo::exportar_graphviz(const std::string& nome_arquivo) const
             }
 
             tipoPeso peso = this->mat[u][v];
-            if(peso != 0.0){
+            if(peso != INFINITO){
                 if (this->tipo == orientado){
                     arquivo << "  " << u << " -> " << v
                     << " [label=\"" << peso << "\"];\n";
@@ -419,7 +426,7 @@ void grafo::exportar_graphviz(const std::string& nome_arquivo,
 
             tipoPeso peso = get_valor_grafo(u, v);
 
-            if(peso != 0.0){
+            if(peso != INFINITO){
                 if(get_tipo_grafo() == orientado){
                     arquivo << "  " << u << " -> " << v << " [label=\"" << peso << "\"];\n";
                 }
@@ -479,7 +486,7 @@ void grafo::exportar_graphviz_agm(const std::string& nome_arquivo,
             }
 
             tipoPeso peso = this->mat[u][v];
-            if(peso == 0.0){
+            if(peso == INFINITO){
                 continue;
             }
 

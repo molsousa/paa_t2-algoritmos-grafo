@@ -130,6 +130,7 @@ void algraph_mol_execucao(grafo* g)
         std::cout << "Escolha uma opcao: ";
         std::cin >> opcao;
         limpar_buffer();
+        g->imprimir_grafo();
 
         switch(opcao){
             case 1:{
@@ -174,7 +175,7 @@ void algraph_mol_execucao(grafo* g)
                 std::cout << "Insira o vertice de origem: ";
                 std::cin >> origem;
                 limpar_buffer();
-                algol.djikstra(*g, origem);
+                algol.dijkstra(*g, origem);
                 pause_3();
                 cls();
                 break;
@@ -188,7 +189,7 @@ void algraph_mol_execucao(grafo* g)
             case 9:{
                 std::cout << "Insira o nome do arquivo de saida: ";
                 getline(std::cin, str);
-                g->exportar_graphviz_mst(str, mst, num_mst);
+                g->exportar_graphviz_agm(str, mst, num_mst);
                 cls();
                 break;
             }

@@ -189,9 +189,9 @@ void algoritmos::ordenacao_topologica(grafo& g)
         cores[u] = branco;
     }
 
-    bool ok;
+    bool ok {true};
 
-    for(u = 0; u < NUM_VERTICES; ++u){
+    for(u = 0; u < NUM_VERTICES && ok; ++u){
         if(cores[u] == branco){
             ok = dfs(g, u, cores, vertices_ordenados, true);
         }
@@ -202,7 +202,7 @@ void algoritmos::ordenacao_topologica(grafo& g)
         vertices_ordenados->imprimir();
     }
     else{
-        std::cout << "\n";
+        std::cout << "Nao e possivel fazer a ordenacao topologica\n";
     }
 
     delete vertices_ordenados;
@@ -371,7 +371,7 @@ void algoritmos::dfs_componente(grafo& g, tipoVertice u, cor* cores, tipoVertice
  * @param g grafo.
  * @param origem vértice de origem.
  */
-void algoritmos::djikstra(grafo& g, tipoVertice origem)
+void algoritmos::dijkstra(grafo& g, tipoVertice origem)
 {
     const int NUM_VERTICES = g.get_num_vertices();
 
@@ -451,7 +451,7 @@ void algoritmos::djikstra(grafo& g, tipoVertice origem)
  *          testa se forma ciclo utilizando conjuntos classe: <union_find>.
  * @param g grafo.
  */
-void algoritmos::kruskal(grafo& g, aresta* mst, int& num_mst)
+void algoritmos::kruskal(grafo& g, aresta* agm, int& num_agm)
 {
     const int NUM_VERTICES = g.get_num_vertices();
 
@@ -467,12 +467,12 @@ void algoritmos::kruskal(grafo& g, aresta* mst, int& num_mst)
 
     std::cout << "Arestas da AGM Kruskal:\n";
 
-    for(int i = 0; i < k && num_mst < NUM_VERTICES - 1; ++i){
+    for(int i = 0; i < k && num_agm < NUM_VERTICES - 1; ++i){
         const aresta& e = arestas[i];
 
         if(uf->uniao(e.u, e.v)){
             std::cout << std::format("   ({:2d}, {:2d}) peso = {:6.2f}\n", e.u, e.v, e.peso);
-            mst[num_mst++] = e;
+            agm[num_agm++] = e;
             peso_total += e.peso;
         }
         else{
@@ -482,8 +482,8 @@ void algoritmos::kruskal(grafo& g, aresta* mst, int& num_mst)
 
     std::cout << std::format("\nPeso total da AGM: {:6.2f}\n", peso_total);
 
-    if(num_mst < NUM_VERTICES - 1){
-        std::cout << "Grafo desconexo, AGM cobre " << num_mst << " de " << NUM_VERTICES << " vertices resultando em floresta\n";
+    if(num_agm < NUM_VERTICES - 1){
+        std::cout << "Grafo desconexo, AGM cobre " << num_agm << " de " << NUM_VERTICES << " vertices resultando em floresta\n";
     }
 
     delete[] arestas;

@@ -126,8 +126,8 @@ public:
     void componentes_fortemente_conexas(grafo&, tipoVertice*);
 
     /**
-     * @brief Algoritmo djikstra para encontrar menor caminho.
-     * @details Algoritmo djikstra para menor caminho: o algoritmo nao admite valores de
+     * @brief Algoritmo dijkstra para encontrar menor caminho.
+     * @details Algoritmo dijkstra para menor caminho: o algoritmo nao admite valores de
      *          arestas negativas; utiliza um vetor de distancia e de pai, onde o vetor de
      *          distância é inicialiado com <INFINITO> e pai com <-1>; utiliza uma fila de
      *          prioridade para acessar o melhor caminho naquele momento; Caso o algoritmo
@@ -137,7 +137,7 @@ public:
      * Pre-condicao: nenhuma.
      * Pos-condicao: nenhuma.
      */
-    void djikstra(grafo&, tipoVertice);
+    void dijkstra(grafo&, tipoVertice);
 
     /**
      * @brief Algoritmo de Kruskal.
